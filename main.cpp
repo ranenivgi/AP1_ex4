@@ -5,7 +5,7 @@ using namespace std;
 
 /**
  * @brief printing the distance in the required format (with precision of 1 when the number is floored, and 17 when it is not).
- * 
+ *
  * @param number the number to print
  */
 void printDistance(double number)
@@ -17,8 +17,8 @@ void printDistance(double number)
 
 /**
  * @brief the main function of the program, recives two vectors and prints their distance in each of the 5 given algorithms.
- * 
- * @return int 
+ *
+ * @return int
  */
 int main()
 {

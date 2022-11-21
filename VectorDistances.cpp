@@ -4,10 +4,10 @@
  * @brief calculates the distance between two vectors by the eclidean algorithm:
  * lets notice that the algorithm is the same as minkowski when P = 2 so we will
  *                                    activate the minkowski function with P = 2
- * 
+ *
  * @param vec1 first vector
  * @param vec2 second vector
- * @param p 
+ * @param p
  * @return the result
  */
 double euclideanDistance(vector<double> vec1, vector<double> vec2)
@@ -19,11 +19,11 @@ double euclideanDistance(vector<double> vec1, vector<double> vec2)
  * @brief calculates the distance between two vectors by the manhattan algorithm:
  * lets notice that the algorithm is the same as minkowski when P = 1 so we will
  *                                    activate the minkowski function with P = 1
- * 
+ *
  * @param vec1 first vector
  * @param vec2 second vector
- * @param p 
- * @return the result 
+ * @param p
+ * @return the result
  */
 double manhattanDistance(vector<double> vec1, vector<double> vec2)
 {
@@ -36,11 +36,11 @@ double manhattanDistance(vector<double> vec1, vector<double> vec2)
  *                                                        from the second vector is a pair, and so on.
  * - decreasing the value of the first number from a pair by the value of the second number (in abs).
  * - search the pair with the biggest result of the above calculation, and return it.
- * 
+ *
  * @param vec1 first vector
  * @param vec2 second vector
- * @param p 
- * @return the result 
+ * @param p
+ * @return the result
  */
 double chebyshevDistance(vector<double> vec1, vector<double> vec2)
 {
@@ -56,15 +56,15 @@ double chebyshevDistance(vector<double> vec1, vector<double> vec2)
  * @brief calculates the distance between two vectors by the canberra algorithm:
  * - split the vectors into pairs, meaning the first number from the first vector and the first number
  *                                                        from the second vector is a pair, and so on.
- * - decreasing the value of the first number from a pair by the value of the second number (in abs), then divide 
+ * - decreasing the value of the first number from a pair by the value of the second number (in abs), then divide
  *   the result in the sum of the number from the first vector (in abs) and the number from the second vector (in abs).
  * - repeat for every pair (by adding the result of each pair to a variable named sum).
  * - return the result (sum)
- * 
+ *
  * @param vec1 first vector
  * @param vec2 second vector
- * @param p 
- * @return the result 
+ * @param p
+ * @return the result
  */
 double canberraDistance(vector<double> vec1, vector<double> vec2)
 {
@@ -86,11 +86,11 @@ double canberraDistance(vector<double> vec1, vector<double> vec2)
  * - add pow P(defined as a default value 2 in my program) to the sum and then repeat for every pair
  *                                      (by adding the result of each pair to a variable named sum).
  * - return the root P of the result (sum)
- * 
+ *
  * @param vec1 first vector
  * @param vec2 second vector
- * @param p 
- * @return the result 
+ * @param p
+ * @return the result
  */
 double minkowskiDistance(vector<double> vec1, vector<double> vec2, const int p = 2)
 {
