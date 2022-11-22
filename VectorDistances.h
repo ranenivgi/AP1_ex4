@@ -1,5 +1,5 @@
-#ifndef EX1_DISTANCEVECTOR_H
-#define EX1_DISTANCEVECTOR_H
+#ifndef VECTOR_DISTANCES_H
+#define VECTOR_DISTANCES_H
 #include <vector>
 #include <math.h>
 

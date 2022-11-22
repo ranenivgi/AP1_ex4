@@ -1,5 +1,8 @@
 #include "VectorDistances.cpp"
 #include <iostream>
+#include <cstring>
+#include <sstream>
+#include <regex.h>
 
 using namespace std;
 
@@ -11,8 +14,44 @@ using namespace std;
 void printDistance(double number)
 {
     fixed(cout);
-    floor(number) == number ? cout.precision(1) : cout.precision(17);
+    floor(number) == number ? cout.precision(1) : cout.precision(16);
     cout << number << endl;
+}
+
+vector<double> strToVec(string str)
+{
+    vector<double> vec;
+    double num;
+    stringstream ss;
+    ss << str;
+
+    while (true)
+    {
+        ss >> num;
+        if (!ss)
+            break;
+        vec.push_back(num);
+    }
+    return vec;
+}
+
+bool isVaild(string str)
+{
+    int status = 0;
+    const char *pattern = "^-?[0-9]+(\\.[0-9]+)?( -?[0-9]+(\\.[0-9]+)?)*(\n\r|\r\n|\r|\n)?$";
+
+    regex_t regex;
+    if (regcomp(&regex, pattern, REG_EXTENDED))
+    {
+        return false;
+    }
+    status = regexec(&regex, str.c_str(), (size_t)0, NULL, 0);
+    regfree(&regex);
+    if (status)
+    {
+        return false;
+    }
+    return true;
 }
 
 /**
@@ -22,8 +61,14 @@ void printDistance(double number)
  */
 int main()
 {
-    vector<double> v1 = {1, 2, 3};
-    vector<double> v2 = {3, 2, 1};
+    string strVec1, strVec2;
+    getline(cin, strVec1) && getline(cin, strVec2);
+    vector<double> v1 = strToVec(strVec1), v2 = strToVec(strVec2);
+
+    if (!(isVaild(strVec1) && isVaild(strVec2)) || (v1.size() != v2.size()))
+    {
+        cout << "problem" << endl;
+    }
 
     printDistance(euclideanDistance(v1, v2));
     printDistance(manhattanDistance(v1, v2));

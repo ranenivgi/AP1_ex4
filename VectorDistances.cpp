@@ -44,10 +44,13 @@ double manhattanDistance(vector<double> vec1, vector<double> vec2)
  */
 double chebyshevDistance(vector<double> vec1, vector<double> vec2)
 {
+    // initiallize sum with the first pair
     double sum = abs(vec1[0] - vec2[0]);
+
+    // checking if there is bigger pair
     for (int i = 1; i < vec1.size(); i++)
     {
-        abs(vec1[i] - vec2[i]) > sum ? sum = abs(vec1[i] - vec2[i]) : sum = sum;
+        (abs(vec1[i] - vec2[i]) > sum) && (sum = abs(vec1[i] - vec2[i]));
     }
     return sum;
 }
@@ -70,7 +73,7 @@ double canberraDistance(vector<double> vec1, vector<double> vec2)
 {
     double sum = 0;
 
-    // calculate the second part of the sum
+    // calculate the sum
     for (int i = 0; i < vec1.size(); i++)
     {
         sum += abs(vec1[i] - vec2[i]) / (abs(vec1[i]) + abs(vec2[i]));
