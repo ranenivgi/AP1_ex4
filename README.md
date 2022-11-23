@@ -6,4 +6,4 @@ EX1:
 
 - To compile the program there are two options:
 1. Type "make" to activate the makefile, and then type "./a.out" to run the program
-2. Write the compling command: g++ main.cpp VectorDistances.cpp
+2. Write the compling command: > g++ main.cpp VectorDistances.cpp, and then type "./a.out" to run the program

@@ -76,6 +76,9 @@ double canberraDistance(vector<double> vec1, vector<double> vec2)
     // calculate the sum
     for (int i = 0; i < vec1.size(); i++)
     {
+        if ((abs(vec1[i]) + abs(vec2[i])) == 0) {
+            return 0;
+        }
         sum += abs(vec1[i] - vec2[i]) / (abs(vec1[i]) + abs(vec2[i]));
     }
     return sum;
