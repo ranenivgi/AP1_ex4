@@ -12,7 +12,7 @@ using namespace std;
  *
  * @param number the number to print
  */
-void printDistance(double number)
+void printDistance (double number)
 {
     fixed(cout);
     floor(number) == number ? cout.precision(1) : cout.precision(16);
@@ -25,7 +25,7 @@ void printDistance(double number)
  * @param str the string
  * @return vector<double> the vector
  */
-vector<double> strToVec(string str)
+vector<double> strToVec (string str)
 {
     vector<double> vec;
     double num;
@@ -54,7 +54,7 @@ vector<double> strToVec(string str)
  * @return true if the string is valid
  * @return false otherwise
  */
-bool isValid(string str)
+bool isValid (string str)
 {
     int status = 0;
     const char *pattern = "^-?[0-9]+(\\.[0-9]+)?( -?[0-9]+(\\.[0-9]+)?)*(\n\r|\r\n|\r|\n)?$";
