@@ -10,6 +10,8 @@
 - In our program, there is double check for valid input (one is enforced by the stringstream and the other by regex).<br />
 The input will not be allowed if it doesn't follow these rules: <br />
 &emsp;1. two strings of numbers <br />
-&emsp;2. the numbers (can be floating point and negative) spereated by only once space (starting with a number) <br />
-&emsp;3. at least one number in each string <br />
-&emsp;4. both strings have the same amount of numbers <br />
+&emsp;2. both strings should start with at least one number <br />
+&emsp;3. the numbers can be floating point and negative <br />
+&emsp;4. the numbers must be spereated by only once space <br />
+&emsp;5. at least one number in each string <br />
+&emsp;6. both strings have the same amount of numbers <br />
