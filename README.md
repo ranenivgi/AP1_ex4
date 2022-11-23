@@ -7,7 +7,8 @@
 
 - In minkowski distance, we chose `P = 2` as a default (can be changed manually in the function).
 - If we divide by `0` in canberra distance algorithm we return `0`
-- In our program, a valid input is: <br />
+- In our program, there is double check for valid input (one is enforced by the stringstream and the other by regex).<br />
+The input will not be allowed if it doesn't follow these rules: <br />
 &emsp;1. two strings of numbers <br />
 &emsp;2. the numbers (can be floating point and negative) spereated by only once space (starting with a number) <br />
 &emsp;3. at least one number in each string <br />
