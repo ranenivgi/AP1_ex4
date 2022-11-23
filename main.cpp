@@ -12,7 +12,7 @@ using namespace std;
  *
  * @param number the number to print
  */
-void printDistance (double number)
+void printDistance(double number)
 {
     fixed(cout);
     floor(number) == number ? cout.precision(1) : cout.precision(16);
@@ -25,7 +25,7 @@ void printDistance (double number)
  * @param str the string
  * @return vector<double> the vector
  */
-vector<double> strToVec (string str)
+vector<double> strToVec(string str)
 {
     vector<double> vec;
     double num;
@@ -37,15 +37,16 @@ vector<double> strToVec (string str)
     // insert the numbers to the vector (split by spaces)
     while (!ss.eof())
     {
-        if(!(ss >> num)) {
-            cout << "ss problem, we exit the program" << endl;
+        // checking if the input is valid
+        if (!(ss >> num))
+        {
+            cout << "invalid input" << endl;
             exit(1);
         }
         vec.push_back(num);
     }
     return vec;
 }
-
 
 /**
  * @brief checking if the string recevied by the user is valid using regex pattern.
@@ -54,10 +55,11 @@ vector<double> strToVec (string str)
  * @return true if the string is valid
  * @return false otherwise
  */
-bool isValid (string str)
+bool isValid(string str)
 {
     int status = 0;
-    const char *pattern = "^-?[0-9]+(\\.[0-9]+)?( -?[0-9]+(\\.[0-9]+)?)*(\n\r|\r\n|\r|\n)?$";
+    // the required pattern
+    const char *pattern = "^[-+]?[0-9]+(\\.[0-9]+)?( [-+]?[0-9]+(\\.[0-9]+)?)*(\n\r|\r\n|\r|\n)?$";
 
     regex_t regex;
     if (regcomp(&regex, pattern, REG_EXTENDED))
@@ -78,11 +80,10 @@ bool isValid (string str)
  *
  * @return int exit the program
  */
-
 int main()
 {
     string strVec1, strVec2;
-    cout << "enter the vectors:" << endl;
+    cout << "please enter the vectors:" << endl;
     getline(cin, strVec1) && getline(cin, strVec2);
     vector<double> v1 = strToVec(strVec1), v2 = strToVec(strVec2);
 
@@ -95,9 +96,10 @@ int main()
         printDistance(chebyshevDistance(v1, v2));
         printDistance(canberraDistance(v1, v2));
         printDistance(minkowskiDistance(v1, v2));
-    } else {
-        cout << "problem, we exit the program" << endl;
+    }
+    else
+    {
+        cout << "invalid input" << endl;
         exit(1);
     }
-        
 }
