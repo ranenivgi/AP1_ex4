@@ -112,5 +112,5 @@ int main()
         printDistance(minkowskiDistance(v1, v2));
     }
     
-   
+  
 }

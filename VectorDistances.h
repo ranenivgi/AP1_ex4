@@ -6,7 +6,7 @@
 
 using namespace std;
 
-double minkowskiDistance(vector<double>, vector<double>, const int);
+double minkowskiDistance(vector<double>, vector<double>, const int = 2);
 double euclideanDistance(vector<double>, vector<double>);
 double manhattanDistance(vector<double>, vector<double>);
 double chebyshevDistance(vector<double>, vector<double>);

@@ -99,7 +99,7 @@ double canberraDistance(vector<double> vec1, vector<double> vec2)
  * @param p
  * @return the result
  */
-double minkowskiDistance(vector<double> vec1, vector<double> vec2, const int p = 2)
+double minkowskiDistance(vector<double> vec1, vector<double> vec2, const int p)
 {
     double sum = 0;
     // calculate the sum
