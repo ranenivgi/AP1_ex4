@@ -3,6 +3,7 @@
 #include <string>
 #include <sstream>
 #include <regex.h>
+#include <stdlib.h>
 
 using namespace std;
 
@@ -34,11 +35,14 @@ vector<double> strToVec(string str)
     ss << str;
 
     // insert the numbers to the vector (split by spaces)
-    while (true)
+    while (!ss.eof())
     {
-        ss >> num;
-        if (!ss)
-            break;
+        // checking if the input is valid
+        if (!(ss >> num))
+        {
+            cout << "invalid input" << endl;
+            exit(1);
+        }
         vec.push_back(num);
     }
     return vec;
@@ -54,7 +58,8 @@ vector<double> strToVec(string str)
 bool isValid(string str)
 {
     int status = 0;
-    const char *pattern = "^-?[0-9]+(\\.[0-9]+)?( -?[0-9]+(\\.[0-9]+)?)*(\n\r|\r\n|\r|\n)?$";
+    // the required pattern
+    const char *pattern = "^[-+]?[0-9]+(\\.[0-9]+)?( [-+]?[0-9]+(\\.[0-9]+)?)*(\n\r|\r\n|\r|\n)?$";
 
     regex_t regex;
     if (regcomp(&regex, pattern, REG_EXTENDED))
@@ -75,31 +80,26 @@ bool isValid(string str)
  *
  * @return int exit the program
  */
-
 int main()
 {
     string strVec1, strVec2;
-    cout << "enter the vectors:" << endl;
+    cout << "please enter the vectors:" << endl;
     getline(cin, strVec1) && getline(cin, strVec2);
     vector<double> v1 = strToVec(strVec1), v2 = strToVec(strVec2);
 
-    // receive input from the user until it is correct
-    while (true)
+    // checking if the input is valid
+    if ((isValid(strVec1) && isValid(strVec2)) && (v1.size() == v2.size()) && v1.size())
     {
-        if ((isValid(strVec1) && isValid(strVec2)) && (v1.size() == v2.size()) && v1.size() && v2.size())
-        {
-            break;
-        }
-        cout << "problem, try again:" << endl;
-        getline(cin, strVec1) && getline(cin, strVec2);
-        v1 = strToVec(strVec1);
-        v2 = strToVec(strVec2);
+        // print the distances between two vectors by the algorithms
+        printDistance(euclideanDistance(v1, v2));
+        printDistance(manhattanDistance(v1, v2));
+        printDistance(chebyshevDistance(v1, v2));
+        printDistance(canberraDistance(v1, v2));
+        printDistance(minkowskiDistance(v1, v2));
     }
-
-    // print the distances between two vectors by the algorithms
-    printDistance(euclideanDistance(v1, v2));
-    printDistance(manhattanDistance(v1, v2));
-    printDistance(chebyshevDistance(v1, v2));
-    printDistance(canberraDistance(v1, v2));
-    printDistance(minkowskiDistance(v1, v2, 2));
+    else
+    {
+        cout << "invalid input" << endl;
+        exit(1);
+    }
 }

@@ -77,7 +77,8 @@ double canberraDistance(vector<double> vec1, vector<double> vec2)
     for (int i = 0; i < vec1.size(); i++)
     {
         // dividing in 0 isn't defined so we will return 0
-        if ((abs(vec1[i]) + abs(vec2[i])) == 0) {
+        if ((abs(vec1[i]) + abs(vec2[i])) == 0)
+        {
             return 0;
         }
         sum += abs(vec1[i] - vec2[i]) / (abs(vec1[i]) + abs(vec2[i]));
@@ -99,7 +100,7 @@ double canberraDistance(vector<double> vec1, vector<double> vec2)
  * @param p
  * @return the result
  */
-double minkowskiDistance(vector<double> vec1, vector<double> vec2, const int p = 2)
+double minkowskiDistance(vector<double> vec1, vector<double> vec2, const int p)
 {
     double sum = 0;
     // calculate the sum
