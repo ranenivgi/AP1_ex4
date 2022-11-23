@@ -3,6 +3,7 @@
 #include <string>
 #include <sstream>
 #include <regex.h>
+#include <stdlib.h>
 
 using namespace std;
 
