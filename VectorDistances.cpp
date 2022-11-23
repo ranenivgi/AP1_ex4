@@ -1,8 +1,4 @@
 #include "VectorDistances.h"
-#include <stdlib.h>
-#include <iostream>
-
-using namespace std;
 
 /**
  * @brief calculates the distance between two vectors by the eclidean algorithm:

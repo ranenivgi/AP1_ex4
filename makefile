@@ -1,11 +1,11 @@
-a.out: main.o ex1.o
-	gcc -Werror -o a.out main.o ex1.o
+a.out: main.o VectorDistances.o
+	g++ -std=c++11 main.o VectorDistances.o -o a.out
 
-main.o: main.c ex1.h
-	gcc -Werror -c -o main.o main.c
+main.o: main.cpp VectorDistances.cpp 
+	g++ -std=c++11 -c main.cpp
 
-ex1.o: ex1.c
-	gcc -Werror -c -o ex1.o ex1.c	
+VectorDistances.o: VectorDistances.cpp 
+	g++ -std=c++11 -c VectorDistances.cpp
 
 clean:
-	rm -f *.o a.out
+	rm *.o run
