@@ -1,5 +1,4 @@
 # Advanced Programming 1
-Cancel changes
 ## Exercise 1:
 
 - To compile the program there are two options: <br />
