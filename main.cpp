@@ -87,22 +87,30 @@ int main()
     vector<double> v1 = strToVec(strVec1), v2 = strToVec(strVec2);
 
     // receive input from the user until it is correct
-    while (true)
-    {
-        if ((isValid(strVec1) && isValid(strVec2)) && (v1.size() == v2.size()) && v1.size() && v2.size())
-        {
-            break;
-        }
-        cout << "problem, try again:" << endl;
-        getline(cin, strVec1) && getline(cin, strVec2);
-        v1 = strToVec(strVec1);
-        v2 = strToVec(strVec2);
-    }
+    // while (true)
+    // {
+    //     if ((isValid(strVec1) && isValid(strVec2)) && (v1.size() == v2.size()) && v1.size() && v2.size())
+    //     {
+    //         break;
+    //     }
+    //     cout << "problem, try again:" << endl;
+    //     getline(cin, strVec1) && getline(cin, strVec2);
+    //     v1 = strToVec(strVec1);
+    //     v2 = strToVec(strVec2);
+    // }
 
     // print the distances between two vectors by the algorithms
-    printDistance(euclideanDistance(v1, v2));
-    printDistance(manhattanDistance(v1, v2));
-    printDistance(chebyshevDistance(v1, v2));
-    printDistance(canberraDistance(v1, v2));
-    printDistance(minkowskiDistance(v1, v2, 2));
+    if ((v1.size() != v2.size()) || v1.size() == 0)
+    {
+        cout << "problem, we exit the program" << endl;
+        exit(1);
+    } else {
+        printDistance(euclideanDistance(v1, v2));
+        printDistance(manhattanDistance(v1, v2));
+        printDistance(chebyshevDistance(v1, v2));
+        printDistance(canberraDistance(v1, v2));
+        printDistance(minkowskiDistance(v1, v2));
+    }
+    
+   
 }
