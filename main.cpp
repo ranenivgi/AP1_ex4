@@ -7,7 +7,7 @@
 using namespace std;
 
 /**
- * @brief printing the distance in the required format (with precision of 1 when the number is floored, and 17 when it is not).
+ * @brief printing the distance in the required format (with precision of 1 when the number is floored, and 16 when it is not).
  *
  * @param number the number to print
  */
