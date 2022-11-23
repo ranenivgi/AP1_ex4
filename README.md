@@ -3,7 +3,7 @@
 
 - To compile the program there are two options: <br />
  &emsp;1. Type `make` to activate the makefile, and then type `./a.out` to run the program <br />
- &emsp;2. Write the compling command: `g++ main.cpp VectorDistances.cpp` and then type `./a.out` to run the program
+ &emsp;2. Write the compling command: `g++ *.cpp -std=c++11` and then type `./a.out` to run the program
 
 - In minkowski distance, we chose `P = 2` as a default (can be changed manually in the function).
 - If we divide by `0` in canberra distance algorithm we return `0`
