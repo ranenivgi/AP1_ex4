@@ -2,7 +2,7 @@
 #define VECTOR_DISTANCES_H
 #include <vector>
 #include <math.h>
-#include <cstdlib>
+#include <stdlib.h>
 
 using namespace std;
 
