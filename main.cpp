@@ -81,7 +81,6 @@ int main()
     
     printDistance(euclideanDistance(v1, v2));
     printDistance(manhattanDistance(v1, v2));
-    cout << v1.at(0) << " + " << v2.at(0);
     printDistance(chebyshevDistance(v1, v2));
     printDistance(canberraDistance(v1, v2));
     printDistance(minkowskiDistance(v1, v2, 2));
