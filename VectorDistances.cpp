@@ -111,3 +111,4 @@ double minkowskiDistance(vector<double> vec1, vector<double> vec2, const int p =
     // root the result
     return pow(sum, (double)1 / p);
 }
+//

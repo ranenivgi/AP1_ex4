@@ -86,3 +86,4 @@ int main()
     printDistance(canberraDistance(v1, v2));
     printDistance(minkowskiDistance(v1, v2, 2));
 }
+//
