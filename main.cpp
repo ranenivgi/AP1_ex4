@@ -33,6 +33,7 @@ vector<double> strToVec(string str)
         vec.push_back(num);
     }
     return vec;
+    
 }
 
 bool isVaild(string str)
@@ -59,20 +60,29 @@ bool isVaild(string str)
  *
  * @return int
  */
+
 int main()
 {
     string strVec1, strVec2;
+    cout << "enter the vectors:" << endl;
     getline(cin, strVec1) && getline(cin, strVec2);
     vector<double> v1 = strToVec(strVec1), v2 = strToVec(strVec2);
-
-    if (!(isVaild(strVec1) && isVaild(strVec2)) || (v1.size() != v2.size()))
+    
+    while (true)
     {
-        cout << "problem" << endl;
+        if((isVaild(strVec1) && isVaild(strVec2)) && (v1.size() == v2.size()) && v1.size() && v2.size()) {
+            break;
+        }
+        cout << "problem, try again:" << endl;
+        getline(cin, strVec1) && getline(cin, strVec2);
+        v1 = strToVec(strVec1);
+        v2 = strToVec(strVec2);
     }
-
+    
     printDistance(euclideanDistance(v1, v2));
     printDistance(manhattanDistance(v1, v2));
+    cout << v1.at(0) << " + " << v2.at(0);
     printDistance(chebyshevDistance(v1, v2));
     printDistance(canberraDistance(v1, v2));
-    printDistance(minkowskiDistance(v1, v2));
+    printDistance(minkowskiDistance(v1, v2, 2));
 }

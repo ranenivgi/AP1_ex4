@@ -1,4 +1,8 @@
 #include "VectorDistances.h"
+#include <stdlib.h>
+#include <iostream>
+
+using namespace std;
 
 /**
  * @brief calculates the distance between two vectors by the eclidean algorithm:
@@ -45,6 +49,7 @@ double manhattanDistance(vector<double> vec1, vector<double> vec2)
 double chebyshevDistance(vector<double> vec1, vector<double> vec2)
 {
     // initiallize sum with the first pair
+    cout << vec1[0] << " + " << abs(vec1[0] - vec2[0]) << " + " << vec2[0];
     double sum = abs(vec1[0] - vec2[0]);
 
     // checking if there is bigger pair
