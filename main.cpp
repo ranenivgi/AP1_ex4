@@ -35,15 +35,17 @@ vector<double> strToVec(string str)
     ss << str;
 
     // insert the numbers to the vector (split by spaces)
-    while (true)
+    while (!ss.eof())
     {
-        ss >> num;
-        if (!ss)
-            break;
+        if(!(ss >> num)) {
+            cout << "ss problem, we exit the program" << endl;
+            exit(1);
+        }
         vec.push_back(num);
     }
     return vec;
 }
+
 
 /**
  * @brief checking if the string recevied by the user is valid using regex pattern.
