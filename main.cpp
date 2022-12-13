@@ -1,10 +1,10 @@
 #include "VectorDistances.h"
+#include "Knn.h"
 #include <iostream>
 #include <string>
 #include <sstream>
 #include <regex.h>
 #include <stdlib.h>
-
 using namespace std;
 
 /**
@@ -19,34 +19,7 @@ void printDistance(double number)
     cout << number << endl;
 }
 
-/**
- * @brief this function converts string input to vector using stringstream object.
- *
- * @param str the string
- * @return vector<double> the vector
- */
-vector<double> strToVec(string str)
-{
-    vector<double> vec;
-    double num;
-    stringstream ss;
 
-    // insert the string to the ss
-    ss << str;
-
-    // insert the numbers to the vector (split by spaces)
-    while (!ss.eof())
-    {
-        // checking if the input is valid
-        if (!(ss >> num))
-        {
-            cout << "invalid input" << endl;
-            exit(1);
-        }
-        vec.push_back(num);
-    }
-    return vec;
-}
 
 /**
  * @brief checking if the string recevied by the user is valid using regex pattern.
@@ -82,24 +55,37 @@ bool isValid(string str)
  */
 int main()
 {
-    string strVec1, strVec2;
-    cout << "please enter the vectors:" << endl;
-    getline(cin, strVec1) && getline(cin, strVec2);
-    vector<double> v1 = strToVec(strVec1), v2 = strToVec(strVec2);
+    vector<pair<string, vector<double>>> database;
+    vector<double> v1 = {5.9,3.0,5.1,1.8};
+    database.push_back(make_pair("Iris-virginica", v1));
+    vector<double> v2 = {6.4,2.8,5.6,2.1};
+    database.push_back(make_pair("Iris-virginica", v2));
+    vector<double> v3 = {7.4,2.8,6.1,1.9};
+    database.push_back(make_pair("Iris-versicolor", v3));
+    vector<double> v4 = {5.7,2.6,3.5,1.0};
+    database.push_back(make_pair("Iris-versicolor", v4));
+    vector<double> mainv = {7.7,3.0,6.1,2.3};
+    Knn *k = new Knn(4,mainv,&database);
+    cout << k->findVectorKind() << endl;
 
-    // checking if the input is valid
-    if ((isValid(strVec1) && isValid(strVec2)) && (v1.size() == v2.size()) && v1.size())
-    {
-        // print the distances between two vectors by the algorithms
-        printDistance(euclideanDistance(v1, v2));
-        printDistance(manhattanDistance(v1, v2));
-        printDistance(chebyshevDistance(v1, v2));
-        printDistance(canberraDistance(v1, v2));
-        printDistance(minkowskiDistance(v1, v2));
-    }
-    else
-    {
-        cout << "invalid input" << endl;
-        exit(1);
-    }
+    // string strVec1, strVec2;
+    // cout << "please enter the vectors:" << endl;
+    // getline(cin, strVec1) && getline(cin, strVec2);
+    // vector<double> v1 = strToVec(strVec1), v2 = strToVec(strVec2);
+    
+    // // checking if the input is valid
+    // if ((isValid(strVec1) && isValid(strVec2)) && (v1.size() == v2.size()) && v1.size())
+    // {
+    //     // print the distances between two vectors by the algorithms
+    //     printDistance(euclideanDistance(v1, v2));
+    //     printDistance(manhattanDistance(v1, v2));
+    //     printDistance(chebyshevDistance(v1, v2));
+    //     printDistance(canberraDistance(v1, v2));
+    //     printDistance(minkowskiDistance(v1, v2));
+    // }
+    // else
+    // {
+    //     cout << "invalid input" << endl;
+    //     exit(1);
+    // }
 }
