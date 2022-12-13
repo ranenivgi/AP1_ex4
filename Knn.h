@@ -5,13 +5,15 @@
 #include "VectorDistances.h"
 #include <algorithm>
 #include <map>
+#include <iostream>
 
 using namespace std;
 
 class Knn
 {
     public:
-        Knn(unsigned int K, vector<double> mainVec, vector<pair<string, vector<double>>> *database);
+        Knn(unsigned int K, vector<double> mainVec, vector<pair<string, vector<double>>> *database, string algorithm);
+        ~Knn();
         string findVectorKind();
 
     private:
@@ -20,6 +22,7 @@ class Knn
         vector<double> mainVector;
         vector<pair<string, vector<double>>> *database;
         void convertToDistance(vector<pair<string, double>> &distances);
+        string algorithm;
 };
 
 #endif

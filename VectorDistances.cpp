@@ -111,3 +111,20 @@ double minkowskiDistance(vector<double> vec1, vector<double> vec2, const int p)
     // root the result
     return pow(sum, (double)1 / p);
 }
+
+double selectAlgorithm (vector<double> vec1, vector<double> vec2, string algo) {
+    if (algo == "AUC") {
+        return euclideanDistance(vec1, vec2);
+    } else if (algo == "MAN") {
+        return manhattanDistance(vec1, vec2);
+    } else if (algo == "CHB") {
+        return chebyshevDistance(vec1, vec2);
+    } else if (algo == "CAN") {
+        return canberraDistance(vec1, vec2);
+    } else if (algo == "MIN") {
+        return minkowskiDistance(vec1, vec2);
+    } else {
+        cout << "invalid algorithm" << endl;
+        exit(1);
+    }
+}

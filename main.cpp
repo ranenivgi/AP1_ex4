@@ -69,38 +69,39 @@ vector<double> strToVec(string str)
  *
  * @return int exit the program
  */
-int main(int argc, char** argv)
+int main(int argc, char **argv)
 {
+    // argument input check
+    if (argc != 4)
+    {
+        cout << "Invalid argument input" << endl;
+        exit(1);
+    }
     //"datasets/iris/iris_classified.csv"
     vector<pair<string, vector<double>>> database = readFromFile(argv[2]);
-   
+
     string str;
-    while(true) {
+    while (true)
+    {
         getline(cin, str);
         vector<double> mainv = strToVec(str);
 
-        //convert char* to unsigned int
+        // vector input validation
+        if (!isValid(str) || !mainv.size())
+        {
+            cout << "invalid vector input" << endl;
+            exit(1);
+        }
+
+        // convert char* to unsigned int
         unsigned int k;
         stringstream s(argv[1]);
-        s >> k;
-        
-        Knn *knn = new Knn(k, mainv, &database);
+        if (!(s >> k))
+        {
+            cout << "K number error" << endl;
+        }
+
+        Knn *knn = new Knn(k, mainv, &database, argv[3]);
         cout << knn->findVectorKind() << endl;
     }
-    
-    // // checking if the input is valid
-    // if ((isValid(strVec1) && isValid(strVec2)) && (v1.size() == v2.size()) && v1.size())
-    // {
-    //     // print the distances between two vectors by the algorithms
-    //     printDistance(euclideanDistance(v1, v2));
-    //     printDistance(manhattanDistance(v1, v2));
-    //     printDistance(chebyshevDistance(v1, v2));
-    //     printDistance(canberraDistance(v1, v2));
-    //     printDistance(minkowskiDistance(v1, v2));
-    // }
-    // else
-    // {
-    //     cout << "invalid input" << endl;
-    //     exit(1);
-    // }
 }

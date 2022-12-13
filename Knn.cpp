@@ -1,10 +1,11 @@
 #include "Knn.h"
 
-    Knn::Knn(unsigned int K, vector<double> mainVec, vector<pair<string, vector<double>>> *database)
+    Knn::Knn(unsigned int K, vector<double> mainVec, vector<pair<string, vector<double>>> *database, string algorithm)
     {
         this->K = K;
         this->mainVector = mainVec;
         this->database = database;
+        this->algorithm = algorithm;
         convertToDistance(distances);
     }
 
@@ -44,7 +45,7 @@
         // iterate over the database and push pairs of kind and distance to the new distances vector
         for (pair<string, vector<double>> iterator : *this->database)
         {
-            distances.push_back(make_pair(iterator.first, minkowskiDistance(this->mainVector, iterator.second)));
+            distances.push_back(make_pair(iterator.first, selectAlgorithm(this->mainVector, iterator.second, this->algorithm)));
         }
 
         // sort the distances so the closest will be the first
