@@ -3,7 +3,6 @@
 vector<pair<string, vector<double>>> readFromFile(string filePath) {
     vector<pair<string, vector<double>>> database;
     stringstream ss;
-    double num;
 
     // Open the file for reading.
     ifstream file("datasets/iris/iris_classified.csv");
@@ -19,25 +18,25 @@ vector<pair<string, vector<double>>> readFromFile(string filePath) {
     while (getline(file, line)) {
         // Create a string stream from the line.
         stringstream line_stream(line);
-
+        string value;
+        double num;
+        pair<string, vector<double>> temp;
         // Use the string stream to read the values from the line,
         // separated by commas.
-        string value;
-        pair<string, vector<double>> temp;
         while (getline(line_stream, value, ',')) {
-            // checking if the input is valid
-            if (!(line_stream >> num))
+            // insert the string to a stringstream before the conversion to double
+            stringstream ss(value);
+            // checking if the input is valid, if its not valid we break the loop
+            if (!(ss >> num))
             {
-                cout << "invalid input" << endl;
-                exit(1);
+                break;
+            } else {
+                temp.second.push_back(num);
             }
-            temp.second.push_back(num);
-            temp.first.append(value);
-            cout << temp.first << endl;
-
             // Print the value to the console.
             cout << value << " ";
         }
+        temp.first = value;
         database.push_back(temp);
         cout << endl;
     }

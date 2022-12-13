@@ -1,4 +1,5 @@
 #include "VectorDistances.h"
+#include "Initialization.h"
 #include "Knn.h"
 #include <iostream>
 #include <string>
@@ -55,15 +56,15 @@ bool isValid(string str)
  */
 int main()
 {
-    vector<pair<string, vector<double>>> database;
-    vector<double> v1 = {5.9,3.0,5.1,1.8};
-    database.push_back(make_pair("Iris-virginica", v1));
-    vector<double> v2 = {6.4,2.8,5.6,2.1};
-    database.push_back(make_pair("Iris-virginica", v2));
-    vector<double> v3 = {7.4,2.8,6.1,1.9};
-    database.push_back(make_pair("Iris-versicolor", v3));
-    vector<double> v4 = {5.7,2.6,3.5,1.0};
-    database.push_back(make_pair("Iris-versicolor", v4));
+    vector<pair<string, vector<double>>> database = readFromFile("a");
+    // vector<double> v1 = {5.9,3.0,5.1,1.8};
+    // database.push_back(make_pair("Iris-virginica", v1));
+    // vector<double> v2 = {6.4,2.8,5.6,2.1};
+    // database.push_back(make_pair("Iris-virginica", v2));
+    // vector<double> v3 = {7.4,2.8,6.1,1.9};
+    // database.push_back(make_pair("Iris-versicolor", v3));
+    // vector<double> v4 = {5.7,2.6,3.5,1.0};
+    // database.push_back(make_pair("Iris-versicolor", v4));
     vector<double> mainv = {7.7,3.0,6.1,2.3};
     Knn *k = new Knn(4,mainv,&database);
     cout << k->findVectorKind() << endl;
