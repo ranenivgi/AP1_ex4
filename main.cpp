@@ -9,20 +9,6 @@
 using namespace std;
 
 /**
- * @brief printing the distance in the required format (with precision of 1 when the number is floored, and 16 when it is not).
- *
- * @param number the number to print
- */
-void printDistance(double number)
-{
-    fixed(cout);
-    floor(number) == number ? cout.precision(1) : cout.precision(16);
-    cout << number << endl;
-}
-
-
-
-/**
  * @brief checking if the string recevied by the user is valid using regex pattern.
  *
  * @param str the sting
@@ -50,29 +36,57 @@ bool isValid(string str)
 }
 
 /**
+ * @brief this function converts string input to vector using stringstream object.
+ *
+ * @param str the string
+ * @return vector<double> the vector
+ */
+vector<double> strToVec(string str)
+{
+    vector<double> vec;
+    double num;
+    stringstream ss;
+
+    // insert the string to the ss
+    ss << str;
+
+    // insert the numbers to the vector (split by spaces)
+    while (!ss.eof())
+    {
+        // checking if the input is valid
+        if (!(ss >> num))
+        {
+            cout << "invalid input" << endl;
+            exit(1);
+        }
+        vec.push_back(num);
+    }
+    return vec;
+}
+
+/**
  * @brief the main function of the program, recives two vectors and prints their distance in each of the 5 given algorithms.
  *
  * @return int exit the program
  */
-int main()
+int main(int argc, char** argv)
 {
-    vector<pair<string, vector<double>>> database = readFromFile("a");
-    // vector<double> v1 = {5.9,3.0,5.1,1.8};
-    // database.push_back(make_pair("Iris-virginica", v1));
-    // vector<double> v2 = {6.4,2.8,5.6,2.1};
-    // database.push_back(make_pair("Iris-virginica", v2));
-    // vector<double> v3 = {7.4,2.8,6.1,1.9};
-    // database.push_back(make_pair("Iris-versicolor", v3));
-    // vector<double> v4 = {5.7,2.6,3.5,1.0};
-    // database.push_back(make_pair("Iris-versicolor", v4));
-    vector<double> mainv = {7.7,3.0,6.1,2.3};
-    Knn *k = new Knn(4,mainv,&database);
-    cout << k->findVectorKind() << endl;
+    //"datasets/iris/iris_classified.csv"
+    vector<pair<string, vector<double>>> database = readFromFile(argv[2]);
+   
+    string str;
+    while(true) {
+        getline(cin, str);
+        vector<double> mainv = strToVec(str);
 
-    // string strVec1, strVec2;
-    // cout << "please enter the vectors:" << endl;
-    // getline(cin, strVec1) && getline(cin, strVec2);
-    // vector<double> v1 = strToVec(strVec1), v2 = strToVec(strVec2);
+        //convert char* to unsigned int
+        unsigned int k;
+        stringstream s(argv[1]);
+        s >> k;
+        
+        Knn *knn = new Knn(k, mainv, &database);
+        cout << knn->findVectorKind() << endl;
+    }
     
     // // checking if the input is valid
     // if ((isValid(strVec1) && isValid(strVec2)) && (v1.size() == v2.size()) && v1.size())
