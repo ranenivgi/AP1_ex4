@@ -8,6 +8,7 @@
 
 using namespace std;
 
-vector<pair<string, vector<double>>> readFromFile(string filePath);
+vector<pair<string, vector<double>>> readFromFile(string);
+void databaseValidation (vector<pair<string, vector<double>>>&);
 
 #endif

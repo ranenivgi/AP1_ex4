@@ -27,47 +27,33 @@ vector<pair<string, vector<double>>> readFromFile(string filePath) {
             // insert the string to a stringstream before the conversion to double
             stringstream ss(value);
             // checking if the input is valid, if its not valid we break the loop
-            if (!(ss >> num))
+            if ((ss >> num) && ss.eof())
             {
-                break;
-            } else {
                 temp.second.push_back(num);
+            } else {
+                break;
             }
-            // Print the value to the console.
-            cout << value << " ";
         }
+        //cout << value << endl;
         temp.first = value;
         database.push_back(temp);
-        cout << endl;
     }
+    databaseValidation(database);
     return database;
 }
 
-// /**
-//  * @brief this function converts string input to vector using stringstream object.
-//  *
-//  * @param str the string
-//  * @return vector<double> the vector
-//  */
-// vector<double> strToVec(string str)
-// {
-//     vector<double> vec;
-//     double num;
-//     stringstream ss;
-
-//     // insert the string to the ss
-//     ss << str;
-
-//     // insert the numbers to the vector (split by spaces)
-//     while (!ss.eof())
-//     {
-//         // checking if the input is valid
-//         if (!(ss >> num))
-//         {
-//             cout << "invalid input" << endl;
-//             exit(1);
-//         }
-//         vec.push_back(num);
-//     }
-//     return vec;
-// }
+void databaseValidation (vector<pair<string, vector<double>>>& database) {
+    if (database.empty()) {
+        cout << "table is empty" << endl;
+        exit(1);
+    }
+    int vecSize = database[0].second.size();
+    int databaseSize = database.size();
+    
+    for(int i = 0; i < databaseSize; i++){
+        if(database[i].second.size() != vecSize || database[i].second.size() == 0){
+            cout << "invalid table" << endl;
+            exit(1);
+        }
+    } 
+}

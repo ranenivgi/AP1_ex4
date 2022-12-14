@@ -77,9 +77,8 @@ int main(int argc, char **argv)
         cout << "Invalid argument input" << endl;
         exit(1);
     }
-    //"datasets/iris/iris_classified.csv"
     vector<pair<string, vector<double>>> database = readFromFile(argv[2]);
-
+    cout << database.size() << endl;
     string str;
     while (true)
     {
@@ -87,7 +86,7 @@ int main(int argc, char **argv)
         vector<double> mainv = strToVec(str);
 
         // vector input validation
-        if (!isValid(str) || !mainv.size())
+        if (!isValid(str) || !mainv.size() || mainv.size() != database[0].second.size())
         {
             cout << "invalid vector input" << endl;
             exit(1);
@@ -103,5 +102,8 @@ int main(int argc, char **argv)
 
         Knn *knn = new Knn(k, mainv, &database, argv[3]);
         cout << knn->findVectorKind() << endl;
+        for (int i=0; i<database[2557].second.size(); i++) {
+            cout << database[2557].second[i] << endl;
+        }
     }
 }
