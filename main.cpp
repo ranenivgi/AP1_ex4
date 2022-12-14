@@ -1,4 +1,6 @@
 #include "VectorDistances.h"
+#include "ProcessFile.h"
+#include "Knn.h"
 #include <iostream>
 #include <string>
 #include <sstream>
@@ -6,47 +8,6 @@
 #include <stdlib.h>
 
 using namespace std;
-
-/**
- * @brief printing the distance in the required format (with precision of 1 when the number is floored, and 16 when it is not).
- *
- * @param number the number to print
- */
-void printDistance(double number)
-{
-    fixed(cout);
-    floor(number) == number ? cout.precision(1) : cout.precision(16);
-    cout << number << endl;
-}
-
-/**
- * @brief this function converts string input to vector using stringstream object.
- *
- * @param str the string
- * @return vector<double> the vector
- */
-vector<double> strToVec(string str)
-{
-    vector<double> vec;
-    double num;
-    stringstream ss;
-
-    // insert the string to the ss
-    ss << str;
-
-    // insert the numbers to the vector (split by spaces)
-    while (!ss.eof())
-    {
-        // checking if the input is valid
-        if (!(ss >> num))
-        {
-            cout << "invalid input" << endl;
-            exit(1);
-        }
-        vec.push_back(num);
-    }
-    return vec;
-}
 
 /**
  * @brief checking if the string recevied by the user is valid using regex pattern.
@@ -76,30 +37,74 @@ bool isValid(string str)
 }
 
 /**
- * @brief the main function of the program, recives two vectors and prints their distance in each of the 5 given algorithms.
+ * @brief this function converts string input to vector using stringstream object.
+ *
+ * @param str the string
+ * @return vector<double> the vector
+ */
+vector<double> strToVec(string str)
+{
+    vector<double> vec;
+    double num;
+    stringstream ss;
+
+    // insert the string to the ss
+    ss << str;
+
+    // insert the numbers to the vector (split by spaces)
+    while (!ss.eof())
+    {
+        // checking if the input is valid
+        if (!(ss >> num))
+        {
+            cerr << "invalid input" << endl;
+            exit(1);
+        }
+        vec.push_back(num);
+    }
+    return vec;
+}
+
+/**
+ * @brief the main function of the program, recives a vector and finds its type following the KNN algorithm.
  *
  * @return int exit the program
  */
-int main()
+int main(int argc, char **argv)
 {
-    string strVec1, strVec2;
-    cout << "please enter the vectors:" << endl;
-    getline(cin, strVec1) && getline(cin, strVec2);
-    vector<double> v1 = strToVec(strVec1), v2 = strToVec(strVec2);
-
-    // checking if the input is valid
-    if ((isValid(strVec1) && isValid(strVec2)) && (v1.size() == v2.size()) && v1.size())
+    // argument input check
+    if (argc != 4)
     {
-        // print the distances between two vectors by the algorithms
-        printDistance(euclideanDistance(v1, v2));
-        printDistance(manhattanDistance(v1, v2));
-        printDistance(chebyshevDistance(v1, v2));
-        printDistance(canberraDistance(v1, v2));
-        printDistance(minkowskiDistance(v1, v2));
-    }
-    else
-    {
-        cout << "invalid input" << endl;
+        cerr << "Invalid argument input" << endl;
         exit(1);
+    }
+
+    // convert the K number to unsigned int and check validation
+    int k;
+    stringstream ss(argv[1]);
+    if (!(ss >> k) || k < 1)
+    {
+        cerr << "K number error" << endl;
+        exit(1);
+    }
+
+    // read the data from the file and insert it to a database
+    vector<pair<string, vector<double>>> database = readFromFile(argv[2]);
+
+    string input;
+    while (true)
+    {
+        // get the input from the user and converts it to a vector and check its validation
+        getline(cin, input);
+        vector<double> unclassifiedVec = strToVec(input);
+        if (!isValid(input) || !unclassifiedVec.size() || unclassifiedVec.size() != database[0].second.size())
+        {
+            cerr << "invalid vector input" << endl;
+            exit(1);
+        }
+
+        // create Knn object to find the input type
+        Knn *knn = new Knn(k, unclassifiedVec, &database, argv[3]);
+        cout << knn->findVectorType() << endl;
     }
 }
