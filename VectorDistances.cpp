@@ -112,19 +112,28 @@ double minkowskiDistance(vector<double> vec1, vector<double> vec2, const int p)
     return pow(sum, (double)1 / p);
 }
 
-double selectAlgorithm (vector<double> vec1, vector<double> vec2, string algo) {
-    if (algo == "AUC") {
+/**
+ * @brief the function calculates the distance (executes the distances algorithms) between two vectors
+ *  by the given string input.
+ * 
+ * @param vec1 the first vector
+ * @param vec2 the second vector
+ * @param algorithm the chosen algorithm
+ * @return double the distance
+ */
+double selectAlgorithm (vector<double> vec1, vector<double> vec2, string algorithm) {
+    if (algorithm == "AUC") {
         return euclideanDistance(vec1, vec2);
-    } else if (algo == "MAN") {
+    } else if (algorithm == "MAN") {
         return manhattanDistance(vec1, vec2);
-    } else if (algo == "CHB") {
+    } else if (algorithm == "CHB") {
         return chebyshevDistance(vec1, vec2);
-    } else if (algo == "CAN") {
+    } else if (algorithm == "CAN") {
         return canberraDistance(vec1, vec2);
-    } else if (algo == "MIN") {
+    } else if (algorithm == "MIN") {
         return minkowskiDistance(vec1, vec2);
     } else {
-        cout << "invalid algorithm" << endl;
+        cerr << "invalid algorithm" << endl;
         exit(1);
     }
 }

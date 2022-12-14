@@ -1,5 +1,6 @@
 #ifndef VECTOR_DISTANCES_H
 #define VECTOR_DISTANCES_H
+
 #include <vector>
 #include <cmath>
 #include <string>

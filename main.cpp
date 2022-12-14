@@ -1,11 +1,12 @@
 #include "VectorDistances.h"
-#include "Initialization.h"
+#include "ProcessFile.h"
 #include "Knn.h"
 #include <iostream>
 #include <string>
 #include <sstream>
 #include <regex.h>
 #include <stdlib.h>
+
 using namespace std;
 
 /**
@@ -56,7 +57,7 @@ vector<double> strToVec(string str)
         // checking if the input is valid
         if (!(ss >> num))
         {
-            cout << "invalid input" << endl;
+            cerr << "invalid input" << endl;
             exit(1);
         }
         vec.push_back(num);
@@ -65,7 +66,7 @@ vector<double> strToVec(string str)
 }
 
 /**
- * @brief the main function of the program, recives two vectors and prints their distance in each of the 5 given algorithms.
+ * @brief the main function of the program, recives a vector and finds its type following the KNN algorithm.
  *
  * @return int exit the program
  */
@@ -74,36 +75,36 @@ int main(int argc, char **argv)
     // argument input check
     if (argc != 4)
     {
-        cout << "Invalid argument input" << endl;
+        cerr << "Invalid argument input" << endl;
         exit(1);
     }
+
+    // convert the K number to unsigned int and check validation
+    int k;
+    stringstream ss(argv[1]);
+    if (!(ss >> k) || k < 1)
+    {
+        cerr << "K number error" << endl;
+        exit(1);
+    }
+
+    // read the data from the file and insert it to a database
     vector<pair<string, vector<double>>> database = readFromFile(argv[2]);
-    cout << database.size() << endl;
-    string str;
+
+    string input;
     while (true)
     {
-        getline(cin, str);
-        vector<double> mainv = strToVec(str);
-
-        // vector input validation
-        if (!isValid(str) || !mainv.size() || mainv.size() != database[0].second.size())
+        // get the input from the user and converts it to a vector and check its validation
+        getline(cin, input);
+        vector<double> unclassifiedVec = strToVec(input);
+        if (!isValid(input) || !unclassifiedVec.size() || unclassifiedVec.size() != database[0].second.size())
         {
-            cout << "invalid vector input" << endl;
+            cerr << "invalid vector input" << endl;
             exit(1);
         }
 
-        // convert char* to unsigned int
-        unsigned int k;
-        stringstream s(argv[1]);
-        if (!(s >> k))
-        {
-            cout << "K number error" << endl;
-        }
-
-        Knn *knn = new Knn(k, mainv, &database, argv[3]);
-        cout << knn->findVectorKind() << endl;
-        for (int i=0; i<database[2557].second.size(); i++) {
-            cout << database[2557].second[i] << endl;
-        }
+        // create Knn object to find the input type
+        Knn *knn = new Knn(k, unclassifiedVec, &database, argv[3]);
+        cout << knn->findVectorType() << endl;
     }
 }
