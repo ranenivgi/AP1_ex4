@@ -5,7 +5,7 @@
  &emsp;1. Type `make` to activate the makefile, and then type `./a.out k file_path algorithm` to run the program <br />
  &emsp;2. Write the compling command: `g++ *.cpp -std=c++11` and then type `./a.out k file_path algorithm` to run the program <br />
 Note: <br />
-&emsp;`k` - number of neighbors (must be positive int)<br />
+&emsp;`k` - number of neighbors (must be positive - if it's floating point number it will be automaticlly round down)<br />
 &emsp;`file_path` - the file path <br />
 &emsp;`algorithm` - the distance algorithm (AUC-euclidean, MAN-manhattan, CHB-chebyshev, CAN-canberra, MIN-minkowski) <br />
 

@@ -79,17 +79,17 @@ int main(int argc, char **argv)
         exit(1);
     }
 
+    // read the data from the file and insert it to a database
+    vector<pair<string, vector<double>>> database = readFromFile(argv[2]);
+
     // convert the K number to unsigned int and check validation
     int k;
     stringstream ss(argv[1]);
-    if (!(ss >> k) || k < 1)
+    if (!(ss >> k) || k < 1 || k > database.size())
     {
         cerr << "K number error" << endl;
         exit(1);
     }
-
-    // read the data from the file and insert it to a database
-    vector<pair<string, vector<double>>> database = readFromFile(argv[2]);
 
     string input;
     while (true)
