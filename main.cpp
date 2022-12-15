@@ -106,5 +106,6 @@ int main(int argc, char **argv)
         // create Knn object to find the input type
         Knn *knn = new Knn(k, unclassifiedVec, &database, argv[3]);
         cout << knn->findVectorType() << endl;
+        delete(knn);
     }
 }
