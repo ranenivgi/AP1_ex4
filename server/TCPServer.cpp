@@ -4,8 +4,8 @@
 
 /**
  * @brief Construct a new TCPServer::TCPServer object
- * 
- * @param serverPort 
+ *
+ * @param serverPort
  */
 TCPServer::TCPServer(const size_t serverPort)
 {
@@ -18,11 +18,12 @@ TCPServer::TCPServer(const size_t serverPort)
 
 /**
  * @brief the function creates a new socket for the server
- * 
+ *
  * @return true if it was created sucessfully
  * @return false else
  */
-bool TCPServer::createSocket() {
+bool TCPServer::createSocket()
+{
     this->serverSocket = socket(AF_INET, SOCK_STREAM, 0);
     if (this->serverSocket < 0)
     {
@@ -34,11 +35,12 @@ bool TCPServer::createSocket() {
 
 /**
  * @brief the function binds the server socket to its struct and listens.
- * 
+ *
  * @return true if it was sucessfull
  * @return false else
  */
-bool TCPServer::start() {
+bool TCPServer::start()
+{
     if (bind(this->serverSocket, (struct sockaddr *)&this->server, sizeof(this->server)) < 0)
     {
         perror("error binding socket");
@@ -57,7 +59,7 @@ bool TCPServer::start() {
 
 /**
  * @brief the function and accepts clients
- * 
+ *
  * @return true
  * @return false if there was a problem
  */
@@ -78,15 +80,15 @@ bool TCPServer::acceptClient()
 
 /**
  * @brief the function receives data from the client and returns it as a string
- * 
- * @return string 
+ *
+ * @return string
  */
 string TCPServer::receiveFromClient()
 {
     // create a buffer and initiallize it
     char buffer[BUFFER_SIZE];
     memset(buffer, 0, BUFFER_SIZE);
-    
+
     int bufferLen = sizeof(buffer);
     int readBytes = recv(this->clientSocket, buffer, bufferLen, 0);
     // connection closed
@@ -113,12 +115,12 @@ string TCPServer::receiveFromClient()
 
 /**
  * @brief the function sends data for the client
- * 
+ *
  * @param message
- * @return true 
- * @return false 
+ * @return true
+ * @return false
  */
-bool TCPServer::sendToClient(const string& message)
+bool TCPServer::sendToClient(const string &message)
 {
     // send the message to the client and check if it was sent sucessfully
     int sentBytes = send(this->clientSocket, message.c_str(), strlen(message.c_str()), 0);
@@ -133,8 +135,9 @@ bool TCPServer::sendToClient(const string& message)
 
 /**
  * @brief the function closes the server socket
- * 
+ *
  */
-void TCPServer::closeServerSocket() {
+void TCPServer::closeServerSocket()
+{
     close(this->serverSocket);
 }
