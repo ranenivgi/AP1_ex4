@@ -8,15 +8,12 @@
  * @param database the database
  * @param algorithm the chosen algorithm
  */
-Knn::Knn(unsigned int K, vector<double> unclassifiedVec, vector<pair<string, vector<double>>> *database,
+Knn::Knn(unsigned int K, vector<pair<string, vector<double>>> *database,
          string algorithm)
 {
     this->K = K;
-    this->unclassifiedVec = unclassifiedVec;
     this->database = database;
     this->algorithm = algorithm;
-    // calculate the distance between the vectors from the database and the unclassified vector
-    convertToDistance(distances);
 }
 
 /**
@@ -26,12 +23,12 @@ Knn::Knn(unsigned int K, vector<double> unclassifiedVec, vector<pair<string, vec
  *
  * @param distances the distances vector
  */
-void Knn::convertToDistance(vector<pair<string, double>> &distances)
+void Knn::convertToDistance(vector<pair<string, double>> &distances, vector<double>& unclassifiedVec)
 {
     // iterate over the database and push "type" and "distance" pairs to the distances vector
     for (pair<string, vector<double>> iterator : *this->database)
     {
-        distances.push_back(make_pair(iterator.first, selectAlgorithm(this->algorithm, this->unclassifiedVec,
+        distances.push_back(make_pair(iterator.first, selectAlgorithm(this->algorithm, unclassifiedVec,
                                                                       iterator.second)));
     }
 
@@ -50,11 +47,15 @@ void Knn::convertToDistance(vector<pair<string, double>> &distances)
  *
  * @return string the most common type
  */
-string Knn::findVectorType()
+string Knn::findVectorType(vector<double>& unclassifiedVec)
 {
+    // calculate the distance between the vectors from the database and the unclassified vector
+    convertToDistance(distances, unclassifiedVec);
+
     // create the map to count the appearance of each type
     map<string, long> neighbors;
-    for (int i = 0; i < this->K; i++)
+    int size = min((int) this->K, (int) this->database->size());
+    for (int i = 0; i < size; i++)
     {
         if (neighbors.count(this->distances.at(i).first) > 0)
         {

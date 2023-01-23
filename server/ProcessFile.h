@@ -2,14 +2,23 @@
 #define PROCESSFILE_H
 
 #include <vector>
-#include <string>
+#include <string.h>
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <sys/socket.h>
+#include <stdio.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#include <unistd.h>
 
 using namespace std;
 
-vector<pair<string, vector<double>>> readFromFile(string);
-void databaseValidation (vector<pair<string, vector<double>>>&, int&);
+bool unclassifiedVectorsValidation(vector<pair<string, vector<double>>>&, int);
+bool databaseValidation(vector<pair<string, vector<double>>> &database);
+void strToVec(string, vector<pair<string, vector<double>>>&);
+void readLineFromFile(string, vector<pair<string, vector<double>>>&);
+vector<pair<string, vector<double>>> readFromFile();
+string receiveFromClient();
 
 #endif

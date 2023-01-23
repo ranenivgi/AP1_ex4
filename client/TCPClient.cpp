@@ -54,25 +54,6 @@ bool TCPClient::connectToServer()
 }
 
 /**
- * @brief the function sends data to the server
- * 
- * @param data 
- * @return true 
- * @return false 
- */
-bool TCPClient::sendToServer(const string &data)
-{
-    // send the message to the client and check if it was sent sucessfully
-    int sentBytes = send(this->serverSock, data.c_str(), strlen(data.c_str()), 0);
-    if (sentBytes < 0)
-    {
-        perror("error sending to server");
-        return false;
-    }
-    return true;
-}
-
-/**
  * @brief the function receives data from the server and returns it as a string
  * 
  * @return string 
