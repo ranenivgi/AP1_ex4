@@ -11,7 +11,7 @@ public:
     DefaultIO(/* args */) = default;
     virtual string read() = 0;
     virtual void write(string data) = 0;
-    ~DefaultIO();
+    ~DefaultIO() = default;
 };
 
 #endif

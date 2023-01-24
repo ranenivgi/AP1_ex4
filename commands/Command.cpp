@@ -16,6 +16,10 @@ void Command::setDescription(string description) {
     this->description = description;
 }
 
+string Command::getDescription() {
+    return this->description;
+}
+
 void Command::setClientDetails(ClientDetails *clientDetails) {
     this->clientDetails = clientDetails;
 }
