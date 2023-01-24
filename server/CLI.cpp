@@ -18,17 +18,18 @@ void CLI::menu()
 
 void CLI::start()
 {
-    stringstream ss;
+    string input;
     int choice = 0;
     while (true) {
         menu();
-        ss << (this->io->read());
+        stringstream ss(this->io->read());
         if (!(ss >> choice))
         {
             this->io->write("invalid input\n");
             continue;
         }
         if (choice == 8) {
+            this->io->write("<exit>");
             break;
         }
         if (!ss.eof() || choice < 1 || choice > 5) {      

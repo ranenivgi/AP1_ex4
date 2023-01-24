@@ -5,6 +5,7 @@
 #include "../IO/DefaultIO.h"
 #include "../commands/Command.h"
 #include <sstream>
+#include <iostream>
 
 using namespace std;
 

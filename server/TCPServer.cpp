@@ -151,6 +151,6 @@ void TCPServer::closeClientSocket()
     close(this->clientSocket);
 }
 
-int TCPServer::getServerSocket() {
-    return this->serverSocket;
+int TCPServer::getClientSocket() {
+    return this->clientSocket;
 }

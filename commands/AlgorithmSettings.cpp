@@ -9,9 +9,9 @@ AlgorithmSettings::AlgorithmSettings(DefaultIO *io, ClientDetails *clientDetails
 
 void AlgorithmSettings::execute()
 {
-    this->getIO()->write("The current KNN parameters are: K = " + to_string(this->getClientDetails()->getK()) + "distance metric = " + this->getClientDetails()->getAlgorithm() + "\n");
+    this->getIO()->write("The current KNN parameters are: K = " + to_string(this->getClientDetails()->getK()) + " distance metric = " + this->getClientDetails()->getAlgorithm() + "\n");
     string input = this->getIO()->read();
-    if (input == "\n" || input == "\r\n")
+    if (input.empty())
     {
         return;
     }
@@ -35,7 +35,7 @@ void AlgorithmSettings::convertInput(string input)
     getline(wordStream, value, ' ');
     stringstream ss(value);
     wordStream >> value;
-    bool isValidAlgorithm = selectAlgorithm(value) == -1 ? true : false;
+    bool isValidAlgorithm = selectAlgorithm(value) == -1 ? false : true;
     if (!((ss >> k) && ss.eof()) || k < 1)
     {
         this->getIO()->write("invalid input for K\n");
@@ -49,7 +49,6 @@ void AlgorithmSettings::convertInput(string input)
         this->getIO()->write("invalid value for metric\n");
         return;
     }
-    
     this->getClientDetails()->setK(k);
     this->getClientDetails()->setAlgorithm(value);
 }

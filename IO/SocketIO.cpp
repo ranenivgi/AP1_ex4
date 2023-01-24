@@ -5,6 +5,7 @@ SocketIO::SocketIO(int socket) {
 }
 
 void SocketIO::write(string data) {
+    data.append("end of line");
     // send the message to the client and check if it was sent sucessfully
     int sentBytes = send(this->socket, data.c_str(), strlen(data.c_str()), 0);
     if (sentBytes < 0)
@@ -18,6 +19,7 @@ void SocketIO::write(string data) {
 string SocketIO::read() {
     // create a buffer and initiallize it
     char buffer[1];
+    string end = "end of line";
     string line;
     do
     {
@@ -38,8 +40,9 @@ string SocketIO::read() {
             return temp;
         }
         line.append(buffer);
-    } while (buffer[0] != '\n' || buffer[0] != '\r');
-
+    } while (!equal(end.rbegin(), end.rend(),line.rbegin()));
+    // remove the '\n' char from the end of the string
+    line.erase(line.end() - 11, line.end());
     // return the vector in a string format
     return line;
 }
