@@ -21,6 +21,7 @@ public:
     ClientDetails *getClientDetails();
     void setClientDetails(ClientDetails *clientDetails);
     void setDescription(string description);
+    string getDescription();
     ~Command() = default;
 };
 
