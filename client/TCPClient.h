@@ -20,6 +20,7 @@ class TCPClient
         bool sendToServer(const string&);
         string receiveFromServer();
         void closeSocket();
+        int getSocket();
 
     private:
        struct sockaddr_in client;

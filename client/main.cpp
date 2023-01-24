@@ -1,10 +1,14 @@
 #include "TCPClient.h"
+#include "../IO/DefaultIO.h"
+#include "../IO/SocketIO.h"
+#include "../IO/StandartIO.h"
 #include <iostream>
 #include <string>
 #include <sstream>
 #include <regex.h>
 #include <stdlib.h>
 #include <vector>
+#include "thread"
 
 using namespace std;
 
@@ -48,6 +52,20 @@ void convertInput(string input, vector<double> &unclassifiedVec, string &algorit
     }
 }
 
+void recieve(DefaultIO* io) {
+    while (true) {
+        cout << io->read() << endl;
+    }
+}
+
+void send(DefaultIO* io) {
+    string input;
+    while (true) {
+        getline(cin, input);
+        io->write(input);
+    }
+}
+
 /**
  * @brief the main function of the program, recives a vector and finds its type following the KNN algorithm.
  *
@@ -88,50 +106,11 @@ int main(int argc, char **argv)
         return 0;
     }
 
-    string input;
+    DefaultIO *socketIO = new SocketIO(client->getSocket());
+    
+    thread(recieve, socketIO);
 
-    // the loop gets input from the client, check if it is valid send data to the server, gets data from the server and prints it
-    while (true)
-    {
-        // gets the user input
-        getline(cin, input);
-        int done;
-        stringstream ss(input);
-        // if the user insert -1 we finish the loop and exit the program
-        if ((ss >> done) && (done == -1))
-        {
-            break;
-        }
-
-        vector<double> vector;
-        string algorithm;
-        int k;
-
-        // split the input to the vector, algorithm and k number
-        convertInput(input, vector, algorithm, k);
-
-        // k number and vector size input validation
-        if(k < 1 || !vector.size())
-        {
-            // the input is not valid so we receive new vector
-            cout << "invalid input" << endl;
-            continue;
-        }
-
-        // if we cant send the data to the server, we finish the loop and exit the program
-        if(!client->sendToServer(input)){
-            break;
-        }
-
-        // receive data from the client
-        string output = client->receiveFromServer();
-        // if the string is empty we couldn't receive data from the server, so we finish the loop and exit the program
-        if(output.empty())
-        {
-            break;
-        }
-        cout << output << endl;
-    }
+    send(socketIO);
     // close server socket
     client->closeSocket();
     delete(client);

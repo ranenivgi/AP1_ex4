@@ -93,3 +93,7 @@ void TCPClient::closeSocket()
 {
     close(this->serverSock);
 }
+
+int TCPClient::getSocket() {
+    return this->serverSock;
+}
