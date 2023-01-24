@@ -2,11 +2,20 @@
 #include "ProcessFile.h"
 #include "Knn.h"
 #include "TCPServer.h"
+#include "../IO/DefaultIO.h"
+#include "../IO/SocketIO.h"
 #include <iostream>
 #include <string>
 #include <sstream>
 #include <regex.h>
 #include <stdlib.h>
+#include "CLI.h"
+#include "../client/ClientDetails.h"
+#include "../commands/UploadData.h"
+#include "../commands/AlgorithmSettings.h"
+#include "../commands/ClassifyData.h"
+#include "../commands/DisplayResults.h"
+#include "../commands/DownloadResults.h"
 
 using namespace std;
 
@@ -59,17 +68,9 @@ void convertInput(string input, vector<double> &unclassifiedVec, string &algorit
 int main(int argc, char **argv)
 {
     // argument input check
-    if (argc != 3)
+    if (argc != 2)
     {
         cerr << "invalid server input, the program is closed" << endl;
-        return 0;
-    }
-
-    // read the data from the file, insert it to a database and check for validation
-    vector<pair<string, vector<double>>> database = readFromFile(argv[1]);
-    if (database.empty())
-    {
-        cerr << "database is not valid, the program is closed" << endl;
         return 0;
     }
 
@@ -90,53 +91,20 @@ int main(int argc, char **argv)
     {
         return 0;
     }
+    server->acceptClient();
+    DefaultIO *io = new SocketIO(server->getServerSocket());
+    ClientDetails *clientDetails = new ClientDetails();
+    Command* commands[5];
 
-    // loop responsible of accepting clients
-    while (server->acceptClient())
-    {
-        //loop responsible of receiving data from the user, process it and send it back
-        while (true)
-        {
-            int k;
-            vector<double> unclassifiedVec;
-            string algorithm;
-            
-            // receive data from the client
-            string clientInput = server->receiveFromClient();
-            // if the string is empty the connection is closed, we move to the next client
-            if (clientInput.empty())
-            {
-                break;
-            }
-            
-            // split the input to the vector, algorithm and k number
-            convertInput(clientInput, unclassifiedVec, algorithm, k);
+    commands[0] = new UploadData(io, clientDetails);
+    commands[1] = new AlgorithmSettings(io, clientDetails);
+    commands[2] = new ClassifyData(io, clientDetails);
+    commands[3] = new DisplayResults(io, clientDetails);
+    commands[4] = new DownloadResults(io, clientDetails);
 
-            // k number, vector size and algorithm input validation
-            if ((k < 1 || !unclassifiedVec.size() || unclassifiedVec.size() != database[0].second.size()) 
-                || (k > database.size()) || (selectAlgorithm(algorithm) == -1))
-            {
-                // if we cant send the data for the user, we move to the next client
-                if (!server->sendToClient("invalid input"))
-                {
-                    break;
-                }
-                // else the input is not valid so we receive new vector
-                continue;
-            }
-
-            // create Knn object to find the input type
-            Knn *knn = new Knn(k, unclassifiedVec, &database, algorithm);
-
-            // send the classified vector to the user and check for validation
-            if (!server->sendToClient(knn->findVectorType()))
-            {
-                // if it wasn't sent sucessfully we move to the next client
-                break;
-            }
-            delete (knn);
-        }
-    }
+    CLI *cli = new CLI(io, commands);
+    cli->start();
+    server->closeClientSocket();
     // close server socket (if it will be closed)
     server->closeServerSocket();
     delete (server);

@@ -27,15 +27,13 @@ string SocketIO::read() {
         if (readBytes == 0)
         {
             perror("connection is closed");
-            close(this->socket);
             string temp;
             return temp;
         }
         // error trying to receive
         else if (readBytes < 0)
         {
-            perror("error receiving from client");
-            close(this->socket);
+            perror("error receiving");
             string temp;
             return temp;
         }

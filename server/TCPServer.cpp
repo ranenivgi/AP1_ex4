@@ -141,3 +141,16 @@ void TCPServer::closeServerSocket()
 {
     close(this->serverSocket);
 }
+
+/**
+ * @brief the function closes the client socket
+ *
+ */
+void TCPServer::closeClientSocket()
+{
+    close(this->clientSocket);
+}
+
+int TCPServer::getServerSocket() {
+    return this->serverSocket;
+}

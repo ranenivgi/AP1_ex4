@@ -12,11 +12,11 @@ class CLI
 {
 private:
     DefaultIO* io;
-    Command* commands[5];
+    Command** commands;
     void menu();
 
 public:
-    CLI(/* args */) = default;
+    CLI(DefaultIO* io, Command* commands[5]);
     void start();
     ~CLI() = default;
 };

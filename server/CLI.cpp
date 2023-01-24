@@ -1,5 +1,10 @@
 #include "CLI.h"
 
+CLI::CLI(DefaultIO* io, Command* commands[5]){
+    this->io = io;
+    this->commands = commands;
+}
+
 void CLI::menu()
 {
     string menuMessage = "Welcome to the KNN Classifier server. Please choose an option:\n";

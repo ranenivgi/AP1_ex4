@@ -21,6 +21,8 @@ public:
     string receiveFromClient();
     bool sendToClient(const string &);
     void closeServerSocket();
+    int getServerSocket();
+    void closeClientSocket();
 
 private:
     int serverSocket;
