@@ -79,61 +79,6 @@ bool TCPServer::acceptClient()
 }
 
 /**
- * @brief the function receives data from the client and returns it as a string
- *
- * @return string
- */
-string TCPServer::receiveFromClient()
-{
-    // create a buffer and initiallize it
-    char buffer[BUFFER_SIZE];
-    memset(buffer, 0, BUFFER_SIZE);
-
-    int bufferLen = sizeof(buffer);
-    int readBytes = recv(this->clientSocket, buffer, bufferLen, 0);
-    // connection closed
-    if (readBytes == 0)
-    {
-        perror("connection is closed");
-        close(this->clientSocket);
-        string temp;
-        return temp;
-    }
-    // error trying to receive
-    else if (readBytes < 0)
-    {
-        perror("error receiving from client");
-        close(this->clientSocket);
-        string temp;
-        return temp;
-    }
-
-    // return the vector in a string format
-    string str(buffer);
-    return str;
-}
-
-/**
- * @brief the function sends data for the client
- *
- * @param message
- * @return true
- * @return false
- */
-bool TCPServer::sendToClient(const string &message)
-{
-    // send the message to the client and check if it was sent sucessfully
-    int sentBytes = send(this->clientSocket, message.c_str(), strlen(message.c_str()), 0);
-    if (sentBytes < 0)
-    {
-        perror("error sending to client");
-        close(this->clientSocket);
-        return false;
-    }
-    return true;
-}
-
-/**
  * @brief the function closes the server socket
  *
  */
@@ -151,6 +96,12 @@ void TCPServer::closeClientSocket()
     close(this->clientSocket);
 }
 
-int TCPServer::getClientSocket() {
+/**
+ * @brief getter for client socket
+ *
+ * @return int
+ */
+int TCPServer::getClientSocket()
+{
     return this->clientSocket;
 }

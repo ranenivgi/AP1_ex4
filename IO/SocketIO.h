@@ -18,6 +18,7 @@ class SocketIO : public DefaultIO
 
 private:
     int socket;
+
 public:
     SocketIO(int socket);
     string read() override;

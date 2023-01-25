@@ -12,12 +12,12 @@ using namespace std;
 class CLI
 {
 private:
-    DefaultIO* io;
-    Command** commands;
+    DefaultIO *io;
+    Command **commands;
     void menu();
 
 public:
-    CLI(DefaultIO* io, Command* commands[5]);
+    CLI(DefaultIO *io, Command *commands[5]);
     void start();
     ~CLI() = default;
 };

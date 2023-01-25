@@ -9,7 +9,7 @@ using namespace std;
 class DisplayResults : public Command
 {
 public:
-    DisplayResults(DefaultIO* io, ClientDetails* clientDetails);
+    DisplayResults(DefaultIO *io, ClientDetails *clientDetails);
     void execute() override;
     ~DisplayResults() = default;
 };
