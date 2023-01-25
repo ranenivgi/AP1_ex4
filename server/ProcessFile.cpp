@@ -15,22 +15,22 @@ void strToVec(string line, vector<pair<string, vector<double>>> &unclassifiedVec
     // create a string stream from the line
     stringstream line_stream(line);
     string value;
+    cout << line << endl;
 
     while (getline(line_stream, value, ','))
     {
         // insert the string to a stringstream before the conversion to double
         stringstream ss(value);
         // checking if the input is valid, if its not valid we break the loop
-        if ((ss >> num) && ss.eof())
+        if (!ss.eof() && (ss >> num))
         {
-            vec.push_back(num);
+            pair.second.push_back(num);
         }
         else
         {
             break;
         }
     }
-    pair.second = vec;
     unclassifiedVectors.push_back(pair);
 }
 
@@ -102,20 +102,42 @@ bool unclassifiedVectorsValidation(vector<pair<string, vector<double>>> &unclass
     // check if the file is empty and set the flag accordingly
     if (unclassifiedVectors.empty())
     {
+        cout << "c1" << endl;
         return false;
     }
 
     int vecSize = unclassifiedVectors[0].second.size();
     int size = unclassifiedVectors.size();
 
+    cout << vecSize << " + " << databaseVecSize;
     for (int i = 0; i < size; i++)
     {
         // compare the vectors size from the database and set the flag accordingly
         if (unclassifiedVectors[i].second.size() != vecSize || unclassifiedVectors[i].second.size() == 0 
         || unclassifiedVectors[i].second.size() != databaseVecSize)
         {
+            cout << "c2" << endl;
             return false;
         }
     }
     return true;
+}
+
+void sendFile(string filePath, DefaultIO* io) {
+    // open the file and check if it was opened successfully
+    ifstream file(filePath);
+    if (!file.is_open())
+    {
+        cerr << "could not open file" << endl;
+        return;
+        // return empty database (the caller function will stop the program)
+    }
+
+    // read the file line by line
+    string line;
+    while (getline(file, line))
+    {
+        io->write(line);
+    }
+    io->write("end of file");
 }

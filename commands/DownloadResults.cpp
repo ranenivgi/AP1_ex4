@@ -19,8 +19,12 @@ void DownloadResults::execute()
         return;
     }
 
+    string input = this->getIO()->read();
+    this->getIO()->write(input + "/ClassifiedResults.txt");
     int size = this->getClientDetails()->getUnclassified().size();
+    string message;
     for (int i = 0; i < size; ++i) {
-        this->getIO()->write(to_string(i + 1) + "\t" + this->getClientDetails()->getUnclassified()[i].first + "\n");
+        message.append(to_string(i + 1) + "\t" + this->getClientDetails()->getUnclassified()[i].first + "\n");
     }
+    this->getIO()->write(message);
 }
