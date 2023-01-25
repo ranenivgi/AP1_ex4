@@ -9,11 +9,15 @@ UploadData::UploadData(DefaultIO* io, ClientDetails* clientDetails)
 
 void UploadData::execute()
 {
-     vector<pair<string, vector<double>>> classifiedVectors;
+    vector<pair<string, vector<double>>> classifiedVectors;
     vector<pair<string, vector<double>>> unclassifiedVectors;
     this->getIO()->write("Please upload your local train CSV file.\n");
-    string line;
+    string line = this->getIO()->read();
 
+    if (line != "start of file") {
+        this->getIO()->write("invalid input\n");
+        return;
+    }
     while (true) {
         line = this->getIO()->read();
         if(line == "end of file" || line.empty()){
@@ -29,6 +33,11 @@ void UploadData::execute()
 
     this->getIO()->write("Upload complete.\nPlease upload your local test CSV file.\n");
 
+    line = this->getIO()->read();
+    if (line != "start of file") {
+        this->getIO()->write("invalid input\n");
+        return;
+    }
     while (true) {
         line = this->getIO()->read();
         if(line == "end of file" || line.empty()){

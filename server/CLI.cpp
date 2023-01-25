@@ -22,9 +22,14 @@ void CLI::start()
     int choice = 0;
     while (true) {
         menu();
-        stringstream ss(this->io->read());
+        string str = this->io->read();
+        stringstream ss(str);
         if (!(ss >> choice))
         {
+            if(str == "connection is closed")
+            {
+            break;   
+            }
             this->io->write("invalid input\n");
             continue;
         }

@@ -11,9 +11,7 @@ void SocketIO::write(string data) {
     if (sentBytes < 0)
     {
         perror("error writing");
-        //return false;
     }
-    //return true;
 }
 
 string SocketIO::read() {
@@ -28,15 +26,13 @@ string SocketIO::read() {
         // connection closed
         if (readBytes == 0)
         {
-            perror("connection is closed");
-            string temp;
+            string temp = "connection is closed";
             return temp;
         }
         // error trying to receive
         else if (readBytes < 0)
         {
-            perror("error receiving");
-            string temp;
+            string temp = "connection is closed";
             return temp;
         }
         line.append(buffer);

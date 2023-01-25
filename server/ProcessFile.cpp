@@ -11,11 +11,9 @@ void strToVec(string line, vector<pair<string, vector<double>>> &unclassifiedVec
     vector<double> vec;
     double num;
     pair<string, vector<double>> pair;
-
     // create a string stream from the line
     stringstream line_stream(line);
     string value;
-    cout << line << endl;
 
     while (getline(line_stream, value, ','))
     {
@@ -102,21 +100,18 @@ bool unclassifiedVectorsValidation(vector<pair<string, vector<double>>> &unclass
     // check if the file is empty and set the flag accordingly
     if (unclassifiedVectors.empty())
     {
-        cout << "c1" << endl;
         return false;
     }
 
     int vecSize = unclassifiedVectors[0].second.size();
     int size = unclassifiedVectors.size();
 
-    cout << vecSize << " + " << databaseVecSize;
     for (int i = 0; i < size; i++)
     {
         // compare the vectors size from the database and set the flag accordingly
         if (unclassifiedVectors[i].second.size() != vecSize || unclassifiedVectors[i].second.size() == 0 
         || unclassifiedVectors[i].second.size() != databaseVecSize)
         {
-            cout << "c2" << endl;
             return false;
         }
     }
@@ -125,14 +120,15 @@ bool unclassifiedVectorsValidation(vector<pair<string, vector<double>>> &unclass
 
 void sendFile(string filePath, DefaultIO* io) {
     // open the file and check if it was opened successfully
-    ifstream file(filePath);
+    ifstream file;
+    file.open(filePath);
     if (!file.is_open())
     {
-        cerr << "could not open file" << endl;
+        io->write("end of file");
         return;
-        // return empty database (the caller function will stop the program)
     }
 
+    io->write("start of file");
     // read the file line by line
     string line;
     while (getline(file, line))

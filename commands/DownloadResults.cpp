@@ -7,6 +7,16 @@ DownloadResults::DownloadResults(DefaultIO* io, ClientDetails* clientDetails)
     this->setClientDetails(clientDetails);
 }
 
+void DownloadResults::sendToClient(string input) {
+    this->getIO()->write(input + "/ClassifiedResults.txt");
+    int size = this->getClientDetails()->getUnclassified().size();
+    string message;
+    for (int i = 0; i < size; ++i) {
+        message.append(to_string(i + 1) + "\t" + this->getClientDetails()->getUnclassified()[i].first + "\n");
+    }
+    this->getIO()->write(message);
+}
+
 void DownloadResults::execute()
 {
     if (this->getClientDetails()->getClassified().empty() 
@@ -18,13 +28,6 @@ void DownloadResults::execute()
         this->getIO()->write("please classify the data\n");
         return;
     }
-
     string input = this->getIO()->read();
-    this->getIO()->write(input + "/ClassifiedResults.txt");
-    int size = this->getClientDetails()->getUnclassified().size();
-    string message;
-    for (int i = 0; i < size; ++i) {
-        message.append(to_string(i + 1) + "\t" + this->getClientDetails()->getUnclassified()[i].first + "\n");
-    }
-    this->getIO()->write(message);
+    sendToClient(input);
 }

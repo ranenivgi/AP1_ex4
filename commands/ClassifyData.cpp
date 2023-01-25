@@ -16,13 +16,13 @@ void ClassifyData::execute()
         return;
     }
 
-    Knn *knn = new Knn(this->getClientDetails()->getK(), &this->getClientDetails()->getClassified(),
-                        this->getClientDetails()->getAlgorithm());
+    
     int size = this->getClientDetails()->getUnclassified().size();
-
     // run on the vectors and classify each
     for (int i = 0; i < size; ++i) {
-        this->getClientDetails()->getUnclassified()[i].first = knn->findVectorType(this->getClientDetails()->getUnclassified()[i].second);
+        Knn *knn = new Knn(this->getClientDetails()->getK(), this->getClientDetails()->getUnclassified()[i].second,
+                        &this->getClientDetails()->getClassified(), this->getClientDetails()->getAlgorithm());
+        this->getClientDetails()->getUnclassified()[i].first = knn->findVectorType();
     }
     this->getIO()->write("classifying data complete\n");
 }

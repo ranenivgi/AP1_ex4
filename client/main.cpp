@@ -54,6 +54,12 @@ void convertInput(string input, vector<double> &unclassifiedVec, string &algorit
     }
 }
 
+void downloadThread(DefaultIO* io, string input, string message) {
+    ofstream outfile;
+    outfile.open(input);
+    outfile << message;
+}
+
 void recieve(DefaultIO *io)
 {
     string writeFile = ".txt";
@@ -63,6 +69,11 @@ void recieve(DefaultIO *io)
         if (input == "<exit>"){
             break;
         }
+
+        if (input == "connection is closed"){
+            exit(1);
+        }
+
         if (equal(writeFile.rbegin(), writeFile.rend(), input.rbegin()))
         {
             ofstream outfile;
@@ -70,16 +81,18 @@ void recieve(DefaultIO *io)
             if (!outfile.is_open())
             {
                 cout << "invalid path" << endl;
+                io->read();
                 continue;
             }
-            outfile << io->read();
+            thread th(downloadThread, io, input, io->read());
+            th.detach();
             continue;
         }
         cout << input;
     }
 }
 
-void send2(DefaultIO *io)
+void sendMsg(DefaultIO *io)
 {
     int exit; 
     string input;
@@ -93,6 +106,7 @@ void send2(DefaultIO *io)
             sendFile(input, io);
             continue;
         }
+        
         io->write(input);
         if ((ss >> exit) && exit == 8) {
             break;
@@ -145,7 +159,7 @@ int main(int argc, char **argv)
     thread thread(recieve, socketIO);
     thread.detach();
 
-    send2(socketIO);
+    sendMsg(socketIO);
 
     // close server socket
     client->closeSocket();

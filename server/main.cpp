@@ -9,6 +9,7 @@
 #include <sstream>
 #include <regex.h>
 #include <stdlib.h>
+#include <thread>
 #include "CLI.h"
 #include "../client/ClientDetails.h"
 #include "../commands/UploadData.h"
@@ -59,6 +60,22 @@ void convertInput(string input, vector<double> &unclassifiedVec, string &algorit
     }
 }
 
+void clientProcess(TCPServer* server) {
+    DefaultIO *io = new SocketIO(server->getClientSocket());
+    ClientDetails *clientDetails = new ClientDetails();
+    Command* commands[5];
+
+    commands[0] = new UploadData(io, clientDetails);
+    commands[1] = new AlgorithmSettings(io, clientDetails);
+    commands[2] = new ClassifyData(io, clientDetails);
+    commands[3] = new DisplayResults(io, clientDetails);
+    commands[4] = new DownloadResults(io, clientDetails);
+
+    CLI *cli = new CLI(io, commands);
+    cli->start();
+    server->closeClientSocket();
+}
+
 /**
  * @brief the main function of the server, creates a new server capable of receiving vector
  * from the client, find its type following the KNN algorithm and send it back to the client.
@@ -91,20 +108,17 @@ int main(int argc, char **argv)
     {
         return 0;
     }
-    server->acceptClient();
-    DefaultIO *io = new SocketIO(server->getClientSocket());
-    ClientDetails *clientDetails = new ClientDetails();
-    Command* commands[5];
-
-    commands[0] = new UploadData(io, clientDetails);
-    commands[1] = new AlgorithmSettings(io, clientDetails);
-    commands[2] = new ClassifyData(io, clientDetails);
-    commands[3] = new DisplayResults(io, clientDetails);
-    commands[4] = new DownloadResults(io, clientDetails);
-
-    CLI *cli = new CLI(io, commands);
-    cli->start();
-    server->closeClientSocket();
+    
+    while(true)
+    {
+        if(!server->acceptClient())
+        {
+            continue;
+        }
+        
+        thread thread(clientProcess, server);
+        thread.detach();
+    }
     // close server socket (if it will be closed)
     server->closeServerSocket();
     delete (server);
