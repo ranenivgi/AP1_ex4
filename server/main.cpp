@@ -76,7 +76,7 @@ int main(int argc, char **argv)
 
     // check for port validation
     size_t port;
-    stringstream ss(argv[2]);
+    stringstream ss(argv[1]);
     if (!(ss >> port) || !ss.eof())
     {
         cerr << "port is not valid, the program is closed" << endl;
@@ -92,7 +92,7 @@ int main(int argc, char **argv)
         return 0;
     }
     server->acceptClient();
-    DefaultIO *io = new SocketIO(server->getServerSocket());
+    DefaultIO *io = new SocketIO(server->getClientSocket());
     ClientDetails *clientDetails = new ClientDetails();
     Command* commands[5];
 

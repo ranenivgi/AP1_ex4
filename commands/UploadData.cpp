@@ -9,38 +9,41 @@ UploadData::UploadData(DefaultIO* io, ClientDetails* clientDetails)
 
 void UploadData::execute()
 {
-    this->getIO()->write("Please upload your local train CSV file.");
+     vector<pair<string, vector<double>>> classifiedVectors;
+    vector<pair<string, vector<double>>> unclassifiedVectors;
+    this->getIO()->write("Please upload your local train CSV file.\n");
     string line;
 
     while (true) {
         line = this->getIO()->read();
-        if(line == "end of line" || line.empty()){
+        if(line == "end of file" || line.empty()){
             break;
         } 
-        readLineFromFile(line, this->getClientDetails()->getClassified());
+        readLineFromFile(line, classifiedVectors);
     }
 
-    if(!databaseValidation(this->getClientDetails()->getClassified())){
-        this->getIO()->write("invalid input");
+    if(!databaseValidation(classifiedVectors)){
+        this->getIO()->write("invalid input\n");
         return;
     }
 
-    this->getIO()->write("Upload complete.");
-
-    this->getIO()->write("Please upload your local test CSV file.");
+    this->getIO()->write("Upload complete.\nPlease upload your local test CSV file.\n");
 
     while (true) {
         line = this->getIO()->read();
-        if(line != "end of line" || line.empty()){
+        if(line == "end of file" || line.empty()){
             break;
         } 
-        strToVec(line, this->getClientDetails()->getUnclassified());
+        strToVec(line, unclassifiedVectors);
     }
 
-    if(!unclassifiedVectorsValidation(this->getClientDetails()->getUnclassified(),
-                                        this->getClientDetails()->getClassified()[0].second.size())){
-        this->getIO()->write("invalid input");
+    if(!unclassifiedVectorsValidation(unclassifiedVectors,
+                                        classifiedVectors[0].second.size())){
+        this->getIO()->write("invalid input\n");
         return;
     }
-    this->getIO()->write("Upload complete.");
+
+    this->getIO()->write("Upload complete.\n");
+    this->getClientDetails()->setClassified(classifiedVectors);
+    this->getClientDetails()->setUnclassified(unclassifiedVectors);
 }

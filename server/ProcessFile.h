@@ -11,6 +11,7 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <unistd.h>
+#include "../IO/DefaultIO.h"
 
 using namespace std;
 
@@ -20,5 +21,6 @@ void strToVec(string, vector<pair<string, vector<double>>>&);
 void readLineFromFile(string, vector<pair<string, vector<double>>>&);
 vector<pair<string, vector<double>>> readFromFile();
 string receiveFromClient();
+void sendFile(string filePath, DefaultIO* io);
 
 #endif

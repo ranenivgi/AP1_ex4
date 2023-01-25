@@ -1,7 +1,7 @@
 #include "StandartIO.h"
 
 void StandartIO::write(string data) {
-    cout << data << endl;
+    cout << data;
 }
 
 string StandartIO::read() {
