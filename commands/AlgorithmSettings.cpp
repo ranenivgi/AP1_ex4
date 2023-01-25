@@ -36,6 +36,11 @@ void AlgorithmSettings::convertInput(string input)
     stringstream ss(value);
     wordStream >> value;
     bool isValidAlgorithm = selectAlgorithm(value) == -1 ? false : true;
+    if(!(wordStream.eof()))
+    {
+        this->getIO()->write("invalid input\n");
+        return;
+    }
     if (!((ss >> k) && ss.eof()) || k < 1)
     {
         this->getIO()->write("invalid input for K\n");

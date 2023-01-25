@@ -26,6 +26,9 @@ void strToVec(string line, vector<pair<string, vector<double>>> &unclassifiedVec
         }
         else
         {
+            if(!ss.eof()){
+                pair.first = value;
+            }
             break;
         }
     }
@@ -110,7 +113,7 @@ bool unclassifiedVectorsValidation(vector<pair<string, vector<double>>> &unclass
     {
         // compare the vectors size from the database and set the flag accordingly
         if (unclassifiedVectors[i].second.size() != vecSize || unclassifiedVectors[i].second.size() == 0 
-        || unclassifiedVectors[i].second.size() != databaseVecSize)
+        || unclassifiedVectors[i].second.size() != databaseVecSize || !unclassifiedVectors[i].first.empty())
         {
             return false;
         }
