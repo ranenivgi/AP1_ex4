@@ -37,7 +37,8 @@ In addition, the classified file must follow this rule: <br />
 
 - Before the `DisplayResults` command make sure to upload and classify data first. <br />
 
-- Before the `DownloadResults` command make sure to upload and classify data first. In this command the user enters a path to a txt file, if he entered a path to a folder, the command will create in the given folder a txt file named `ClassifiedResults.txt`. The command will write to the txt file the classification of the unclassified CSV file. Please make sure to enter correct path (and note that the relative path is the project path). <br />
+- Before the `DownloadResults` command make sure to upload and classify data first. In this command the user enters a path to a txt file, if he entered a path to a folder, the command will create in the given folder a txt file named `ClassifiedResults.txt`. The command will write to the txt file the classification of the unclassified CSV file. <br /> 
+Please make sure to enter correct path (and note that the relative path is the project path). <br />
   
 <ins>Vector distances notes:</ins> <br />
 
