@@ -39,16 +39,11 @@ void CLI::start()
     {
         // send the menu
         menu();
-        // read the client's choice
         string str = this->io->read();
         stringstream ss(str);
         // check if the choice is in the range (1-5,8)
         if (!(ss >> choice))
         {
-            if (str == "connection is closed")
-            {
-                break;
-            }
             this->io->write("invalid input\n");
             continue;
         }
@@ -64,8 +59,6 @@ void CLI::start()
             this->io->write("invalid input\n");
             continue;
         }
-
-        // execute the desired command
         this->commands[choice - 1]->execute();
     }
 }
