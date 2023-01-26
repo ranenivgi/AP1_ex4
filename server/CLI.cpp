@@ -44,6 +44,13 @@ void CLI::start()
         // check if the choice is in the range (1-5,8)
         if (!(ss >> choice))
         {
+            if (str == "start of file")
+            {
+                while (this->io->read() != "end of file")
+                {
+                    continue;
+                }
+            }
             this->io->write("invalid input\n");
             continue;
         }

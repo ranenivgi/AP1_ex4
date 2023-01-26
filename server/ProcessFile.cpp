@@ -13,8 +13,8 @@ void readUnclassifiedLineFromFile(string line, vector<pair<string, vector<double
     // we insert each line from the table to a pair
     pair<string, vector<double>> pair;
     
+    //remove the end of line carriage char from the end of the line
     if (line.back() == '\r' || line.back() == '\n') {
-        //remove the end of line carriage char from the end of the line
         line.erase(line.end() - 1, line.end());
         // check for "\r\n" end
         if (line.back() == '\r') {

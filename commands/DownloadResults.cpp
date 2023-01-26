@@ -56,6 +56,14 @@ void DownloadResults::execute()
     }
     // read the folder path
     string input = this->getIO()->read();
+
+    // check if its a file with csv ending (invalid path and the file information was sent)
+    if (input == "start of file")
+    {
+        while (this->getIO()->read() != "end of file") {
+            continue;
+        }
+    }
     // send the client the file (so he can upload it to his local path)
     sendToClient(input);
 }

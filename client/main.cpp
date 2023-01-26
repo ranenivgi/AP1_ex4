@@ -14,7 +14,7 @@
 #include <chrono>
 
 #define EXIT 8
-bool stop = false;
+bool STOP = false;
 
 
 
@@ -85,7 +85,7 @@ void recieveFromServer(DefaultIO *io)
             // check if we should stop
             if (input == "<exit>")
             {
-                stop = true;
+                STOP = true;
                 break;
             }
 
@@ -140,7 +140,7 @@ void sendToServer(DefaultIO *io)
     {
         this_thread::sleep_for(chrono::milliseconds(35));
         // check if the function should be stopped
-        if (stop)
+        if (STOP)
         {
             break;
         }
