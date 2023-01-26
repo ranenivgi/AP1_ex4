@@ -21,7 +21,7 @@ DownloadResults::DownloadResults(DefaultIO *io, ClientDetails *clientDetails)
 void DownloadResults::sendToClient(string input)
 {
     // send the path for the creation of the file
-    this->getIO()->write(input + "/ClassifiedResults.txt");
+    this->getIO()->write(input);
     // read each line from the unclassified database and append to a message
     int size = this->getClientDetails()->getUnclassified().size() - 1;
     string message;
@@ -56,6 +56,13 @@ void DownloadResults::execute()
     }
     // read the folder path
     string input = this->getIO()->read();
+
+    // if received a path to a folder create a new file named "ClassifiedResults.txt", otherwise its a txt file.
+    string writeFile = ".txt";
+    if (!equal(writeFile.rbegin(), writeFile.rend(), input.rbegin()))
+    {
+        input.append("/ClassifiedResults.txt");
+    }
 
     // check if its a file with csv ending (invalid path and the file information was sent)
     if (input == "start of file")
