@@ -47,5 +47,5 @@ clean:
 	$(CLN) *.o server.out client.out
 	rm -f $(wildcard */*.o)
 	rm -f $(wildcard */*.a)
-	rm -f $(wildcard */*.out)
+	rm -f $(wildcard */*.d)
 
