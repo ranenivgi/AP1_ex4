@@ -16,6 +16,10 @@ void readUnclassifiedLineFromFile(string line, vector<pair<string, vector<double
     if (line.back() == '\r' || line.back() == '\n') {
         //remove the end of line carriage char from the end of the line
         line.erase(line.end() - 1, line.end());
+        // check for "\r\n" end
+        if (line.back() == '\r') {
+            line.erase(line.end() - 1, line.end());
+        }
     }
 
     // create a string stream from the line
