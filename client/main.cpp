@@ -1,50 +1,161 @@
 #include "TCPClient.h"
+#include "../IO/DefaultIO.h"
+#include "../IO/SocketIO.h"
+#include "../IO/StandartIO.h"
+#include "../server/ProcessFile.h"
 #include <iostream>
 #include <string>
 #include <sstream>
+#include <fstream>
 #include <regex.h>
 #include <stdlib.h>
 #include <vector>
+#include <thread>
+#include <chrono>
+
+#define EXIT 8
+bool stop = false;
+
+
 
 using namespace std;
 
 /**
- * @brief the function receives string input and splits it to three variables 
- * 
- * @param input the string input
- * @param unclassifiedVec the first part of the string is being transfered to a vector (unclassified)
- * @param algorithm the second part of the string is being transfered to a string (algorithm)
- * @param k the third part of the string is being transfered to an int (k neighbors)
+ * @brief the function is used by a thread and its purpose is to write the results to a file
+ *
+ * @param io the IO written to
+ * @param filePath the file path
+ * @param results
  */
-void convertInput(string input, vector<double> &unclassifiedVec, string &algorithm, int &k)
+void writeToFile(DefaultIO *io, string filePath, string results)
 {
-    stringstream lineStream(input);
-    string value;
-    double num;
+    ofstream outfile;
+    outfile.open(filePath);
+    outfile << results;
+}
 
-    while (getline(lineStream, value, ' '))
+/**
+ * @brief checks if an input is a txt file which should be written to, and creates a thread to do it.
+ *
+ * @param io the IO
+ * @param input the input (filepath)
+ * @return true if it was written sucessfully
+ * @return false otherwise
+ */
+bool isTXTFile(DefaultIO *io, string input)
+{
+    // the .txt format
+    string writeFile = ".txt";
+
+    // checks if the input ends with .txt
+    if (equal(writeFile.rbegin(), writeFile.rend(), input.rbegin()))
     {
-        // insert the string to a stringstream before the conversion to double
-        stringstream ss(value);
-        // checking if the input is valid, if its not valid we reached the algorithm so we break the loop
-        if ((ss >> num) && ss.eof())
+        // create new file
+        ofstream outfile;
+        outfile.open(input);
+        if (!outfile.is_open())
         {
-            // insert the number to the vector
-            unclassifiedVec.push_back(num);
+            cout << "invalid path" << endl;
+            io->read();
+            return true;
         }
-        else
+
+        // write to the file
+        thread th(writeToFile, io, input, io->read());
+        th.detach();
+        return true;
+    }
+    return false;
+}
+
+/**
+ * @brief the function recieves input from the server until it gets the input "<exit>"
+ *
+ * @param io
+ */
+void recieveFromServer(DefaultIO *io)
+{
+    while (true)
+    {
+        try
+        {
+            // read an input from the server
+            string input = io->read();
+
+            // check if we should stop
+            if (input == "<exit>")
+            {
+                stop = true;
+                break;
+            }
+
+            // check if the input is a txt file which should be written to and does it
+            if (isTXTFile(io, input))
+            {
+                continue;
+            }
+            // print the input
+            cout << input;
+        }
+        catch (...)
+        {
+            cout << "server connection is closed" << endl;
+            exit(0);
+        }
+    }
+}
+
+/**
+ * @brief check if an input is a csv file, if so it sends it to the server as a file.
+ *
+ * @param io
+ * @param input
+ * @return true
+ * @return false
+ */
+bool isCSVFile(DefaultIO *io, string input)
+{
+    // the csv format
+    string readFile = ".csv";
+    // check if the input ends with the .csv format
+    if (equal(readFile.rbegin(), readFile.rend(), input.rbegin()))
+    {
+        // send it to the server line by line
+        sendFile(input, io);
+        return true;
+    }
+    return false;
+}
+
+/**
+ * @brief the function recieves input from the user and sends it to the server until it gets the input "8"
+ *
+ * @param io the IO
+ */
+void sendToServer(DefaultIO *io)
+{
+    int exit;
+    string input;
+    while (true)
+    {
+        this_thread::sleep_for(chrono::milliseconds(35));
+        // check if the function should be stopped
+        if (stop)
         {
             break;
         }
-    }
-    // insert the algorithm and K number to the variables and check input validation
-    stringstream algorithmStream(value);
-    (algorithmStream >> algorithm);
-    // insert the K number to the variable and check input validation
-    if (!(lineStream >> k) || !lineStream.eof())
-    {
-        // k can't be negative, so if it isn't valid we will change k to -1
-        k = -1;
+        // get input from the user
+        getline(cin, input);
+        stringstream ss(input);
+
+        // check if the input is a CSV file which should be uploaded to the server
+        if (isCSVFile(io, input))
+        {
+            continue;
+        }
+
+        // send the input to the server
+        io->write(input); 
     }
 }
 
@@ -55,6 +166,7 @@ void convertInput(string input, vector<double> &unclassifiedVec, string &algorit
  */
 int main(int argc, char **argv)
 {
+
     // argument input check
     if (argc != 3)
     {
@@ -63,8 +175,8 @@ int main(int argc, char **argv)
     }
 
     // check if the ip is valid
-     const char *ip = argv[1], *buffer;
-    if(inet_pton(AF_INET, ip, &buffer) != 1)
+    const char *ip = argv[1], *buffer;
+    if (inet_pton(AF_INET, ip, &buffer) != 1)
     {
         cerr << "invalid ip" << endl;
         return 0;
@@ -73,7 +185,7 @@ int main(int argc, char **argv)
     // check if the port is valid
     size_t port;
     stringstream ss(argv[2]);
-    if (!(ss >> port) || !ss.eof() )
+    if (!(ss >> port) || !ss.eof())
     {
         cerr << "invalid port" << endl;
         return 0;
@@ -83,57 +195,22 @@ int main(int argc, char **argv)
     TCPClient *client = new TCPClient(argv[1], port);
 
     // create server socket, connect to the server and check for validation
-    if(!client->createSocket() || !client->connectToServer())
+    if (!client->createSocket() || !client->connectToServer())
     {
         return 0;
     }
 
-    string input;
+    // create new socket IO
+    DefaultIO *socketIO = new SocketIO(client->getSocket());
 
-    // the loop gets input from the client, check if it is valid send data to the server, gets data from the server and prints it
-    while (true)
-    {
-        // gets the user input
-        getline(cin, input);
-        int done;
-        stringstream ss(input);
-        // if the user insert -1 we finish the loop and exit the program
-        if ((ss >> done) && (done == -1))
-        {
-            break;
-        }
+    // create a thread for recieving messages
+    thread thread(recieveFromServer, socketIO);
+    thread.detach();
 
-        vector<double> vector;
-        string algorithm;
-        int k;
+    // the main thread will send messages to the server
+    sendToServer(socketIO);
 
-        // split the input to the vector, algorithm and k number
-        convertInput(input, vector, algorithm, k);
-
-        // k number and vector size input validation
-        if(k < 1 || !vector.size())
-        {
-            // the input is not valid so we receive new vector
-            cout << "invalid input" << endl;
-            continue;
-        }
-
-        // if we cant send the data to the server, we finish the loop and exit the program
-        if(!client->sendToServer(input)){
-            break;
-        }
-
-        // receive data from the client
-        string output = client->receiveFromServer();
-        // if the string is empty we couldn't receive data from the server, so we finish the loop and exit the program
-        if(output.empty())
-        {
-            break;
-        }
-        cout << output << endl;
-    }
     // close server socket
     client->closeSocket();
-    delete(client);
     return 0;
 }

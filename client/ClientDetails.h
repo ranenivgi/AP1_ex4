@@ -13,8 +13,9 @@ private:
     string algorithm = "AUC";
     vector<pair<string, vector<double>>> classifiedVectors;
     vector<pair<string, vector<double>>> unclassifiedVectors;
+
 public:
-    ClientDetails(/* args */) = default;
+    ClientDetails() = default;
     vector<pair<string, vector<double>>> &getClassified();
     vector<pair<string, vector<double>>> &getUnclassified();
     void setClassified(vector<pair<string, vector<double>>> classifiedVec);

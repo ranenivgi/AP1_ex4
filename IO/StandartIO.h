@@ -11,7 +11,7 @@ using namespace std;
 class StandartIO : public DefaultIO
 {
 public:
-    StandartIO(/* args */) = default;
+    StandartIO() = default;
     string read() override;
     void write(string data) override;
     ~StandartIO() = default;

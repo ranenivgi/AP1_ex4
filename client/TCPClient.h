@@ -13,17 +13,17 @@ using namespace std;
 
 class TCPClient
 {
-    public:
-        TCPClient(const char *, const size_t);
-        bool createSocket();
-        bool connectToServer();
-        bool sendToServer(const string&);
-        string receiveFromServer();
-        void closeSocket();
+public:
+    TCPClient(const char *, const size_t);
+    bool createSocket();
+    bool connectToServer();
+    void closeSocket();
+    int getSocket();
+    ~TCPClient() = default;
 
-    private:
-       struct sockaddr_in client;
-       int serverSock;
+private:
+    struct sockaddr_in client;
+    int serverSock;
 };
 
 #endif

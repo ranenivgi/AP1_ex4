@@ -1,7 +1,7 @@
 # Makefile for running two programs
 
 # Choose the compiler.
-CC = g++ -std=c++11
+CC = g++ -pthread -std=c++11
 # Have the right clean command.
 ifeq ($(OS),Windows_NT)
 	CLN=del
@@ -12,8 +12,18 @@ endif
 BUILD_FILES := server/Knn.o
 BUILD_FILES += server/TCPServer.o
 BUILD_FILES += client/TCPClient.o
+BUILD_FILES += client/ClientDetails.o
 BUILD_FILES += server/VectorDistances.o
 BUILD_FILES += server/ProcessFile.o
+BUILD_FILES += server/CLI.o
+BUILD_FILES += commands/Command.o
+BUILD_FILES += commands/UploadData.o
+BUILD_FILES += commands/AlgorithmSettings.o
+BUILD_FILES += commands/ClassifyData.o
+BUILD_FILES += commands/DisplayResults.o
+BUILD_FILES += commands/DownloadResults.o
+BUILD_FILES += IO/SocketIO.o
+BUILD_FILES += IO/StandartIO.o
 
 
 all: $(BUILD_FILES) server.o client.o
@@ -35,3 +45,7 @@ client.o: client/main.cpp
 # Clean command
 clean:
 	$(CLN) *.o server.out client.out
+	rm -f $(wildcard */*.o)
+	rm -f $(wildcard */*.a)
+	rm -f $(wildcard */*.d)
+

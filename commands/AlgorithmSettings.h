@@ -11,9 +11,9 @@ using namespace std;
 class AlgorithmSettings : public Command
 {
 public:
-    AlgorithmSettings(DefaultIO* io, ClientDetails* clientDetails);
+    AlgorithmSettings(DefaultIO *io, ClientDetails *clientDetails);
     void execute() override;
-    void convertInput(string input);
+    void convertAndSetInput(string input);
     ~AlgorithmSettings() = default;
 };
 

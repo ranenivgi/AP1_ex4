@@ -10,6 +10,7 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <unistd.h>
+#include <thread>
 
 using namespace std;
 
@@ -18,6 +19,7 @@ class SocketIO : public DefaultIO
 
 private:
     int socket;
+
 public:
     SocketIO(int socket);
     string read() override;

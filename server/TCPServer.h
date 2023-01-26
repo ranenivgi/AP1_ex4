@@ -18,9 +18,10 @@ public:
     bool createSocket();
     bool start();
     bool acceptClient();
-    string receiveFromClient();
-    bool sendToClient(const string &);
     void closeServerSocket();
+    int getClientSocket();
+    void closeClientSocket();
+    ~TCPServer() = default;
 
 private:
     int serverSocket;

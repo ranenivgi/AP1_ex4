@@ -10,7 +10,7 @@ using namespace std;
 class ClassifyData : public Command
 {
 public:
-    ClassifyData(DefaultIO* io, ClientDetails* clientDetails);
+    ClassifyData(DefaultIO *io, ClientDetails *clientDetails);
     void execute() override;
     ~ClassifyData() = default;
 };

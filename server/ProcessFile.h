@@ -11,14 +11,14 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <unistd.h>
+#include "../IO/DefaultIO.h"
 
 using namespace std;
 
-bool unclassifiedVectorsValidation(vector<pair<string, vector<double>>>&, int);
+bool unclassifiedVectorsValidation(vector<pair<string, vector<double>>> &, int);
 bool databaseValidation(vector<pair<string, vector<double>>> &database);
-void strToVec(string, vector<pair<string, vector<double>>>&);
-void readLineFromFile(string, vector<pair<string, vector<double>>>&);
-vector<pair<string, vector<double>>> readFromFile();
-string receiveFromClient();
+void readUnclassifiedLineFromFile(string, vector<pair<string, vector<double>>> &);
+void readClassifiedLineFromFile(string, vector<pair<string, vector<double>>> &);
+void sendFile(string filePath, DefaultIO *io);
 
 #endif
