@@ -1,35 +1,81 @@
 #include "ClientDetails.h"
 
-vector<pair<string, vector<double>>>& ClientDetails::getClassified() {
+/**
+ * @brief getter for classified database
+ *
+ * @return vector<pair<string, vector<double>>>&
+ */
+vector<pair<string, vector<double>>> &ClientDetails::getClassified()
+{
     return this->classifiedVectors;
 }
 
-vector<pair<string, vector<double>>>& ClientDetails::getUnclassified() {
+/**
+ * @brief getter for unclassified database
+ *
+ * @return vector<pair<string, vector<double>>>&
+ */
+vector<pair<string, vector<double>>> &ClientDetails::getUnclassified()
+{
     return this->unclassifiedVectors;
 }
 
-int ClientDetails::getK() {
+/**
+ * @brief getter for K neighbors
+ *
+ * @return int
+ */
+int ClientDetails::getK()
+{
     return this->k;
 }
 
-string ClientDetails::getAlgorithm() {
+/**
+ * @brief getter for the algorithm
+ *
+ * @return string
+ */
+string ClientDetails::getAlgorithm()
+{
     return this->algorithm;
 }
 
-//check if used
-void ClientDetails::setClassified(vector<pair<string, vector<double>>> classifiedVec) {
+/**
+ * @brief setter for classified database
+ *
+ * @param classifiedVec
+ */
+void ClientDetails::setClassified(vector<pair<string, vector<double>>> classifiedVec)
+{
     this->classifiedVectors = classifiedVec;
 }
 
-//check if used
-void ClientDetails::setUnclassified(vector<pair<string, vector<double>>> unclassifiedVec) {
+/**
+ * @brief setter for unclassified database
+ *
+ * @param unclassifiedVec
+ */
+void ClientDetails::setUnclassified(vector<pair<string, vector<double>>> unclassifiedVec)
+{
     this->unclassifiedVectors = unclassifiedVec;
 }
 
-void ClientDetails::setK(int k) {
+/**
+ * @brief setter for k number
+ *
+ * @param k
+ */
+void ClientDetails::setK(int k)
+{
     this->k = k;
 }
 
-void ClientDetails::setAlgorithm(string algorithm) {
+/**
+ * @brief setter for algorithm
+ *
+ * @param algorithm
+ */
+void ClientDetails::setAlgorithm(string algorithm)
+{
     this->algorithm = algorithm;
 }

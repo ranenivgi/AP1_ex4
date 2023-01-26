@@ -21,49 +21,15 @@
 using namespace std;
 
 /**
- * @brief the function receives string input and splits it to three variables 
- * 
- * @param input the string input
- * @param unclassifiedVec the first part of the string is being transfered to a vector (unclassified)
- * @param algorithm the second part of the string is being transfered to a string (algorithm)
- * @param k the third part of the string is being transfered to an int (k neighbors)
+ * @brief creates new data for a new client and run its process
+ *
+ * @param server
  */
-void convertInput(string input, vector<double> &unclassifiedVec, string &algorithm, int &k)
+void clientProcess(TCPServer *server)
 {
-    stringstream wordStream(input);
-    string value;
-    double num;
-
-    while (getline(wordStream, value, ' '))
-    {
-        // insert the string to a stringstream before the conversion to double
-        stringstream ss(value);
-        // checking if the input is valid, if its not valid we reached the algorithm so we break the loop
-        if ((ss >> num) && ss.eof())
-        {
-            // insert the number to the vector
-            unclassifiedVec.push_back(num);
-        }
-        else
-        {
-            break;
-        }
-    }
-    // insert the algorithm and K number to the variables and check input validation
-    stringstream algorithmStream(value);
-    algorithmStream >> algorithm;
-    // insert the K number to the variable and check input validation
-    if (!(wordStream >> k) || !wordStream.eof())
-    {
-        // k can't be negative, so if it isn't valid we will change k to -1
-        k = -1;
-    }
-}
-
-void clientProcess(TCPServer* server) {
     DefaultIO *io = new SocketIO(server->getClientSocket());
     ClientDetails *clientDetails = new ClientDetails();
-    Command* commands[5];
+    Command *commands[5];
 
     commands[0] = new UploadData(io, clientDetails);
     commands[1] = new AlgorithmSettings(io, clientDetails);
@@ -72,7 +38,10 @@ void clientProcess(TCPServer* server) {
     commands[4] = new DownloadResults(io, clientDetails);
 
     CLI *cli = new CLI(io, commands);
+
+    // start the process
     cli->start();
+    // close the socket when the process is over
     server->closeClientSocket();
 }
 
@@ -108,19 +77,20 @@ int main(int argc, char **argv)
     {
         return 0;
     }
-    
-    while(true)
+
+    while (true)
     {
-        if(!server->acceptClient())
+        // accept new client
+        if (!server->acceptClient())
         {
             continue;
         }
-        
+
+        // activate the client process while accepting new client (thread)
         thread thread(clientProcess, server);
         thread.detach();
     }
     // close server socket (if it will be closed)
     server->closeServerSocket();
-    delete (server);
     return 0;
 }

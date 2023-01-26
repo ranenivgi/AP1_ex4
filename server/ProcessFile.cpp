@@ -1,20 +1,23 @@
 #include "ProcessFile.h"
 
 /**
- * @brief this function converts string input to vector using stringstream object.
+ * @brief this function recieves a line from unclassified csv file and converts it to a vector.
  *
- * @param str the string
- * @return vector<double> the vector
+ * @param line the line
+ * @param database the database
  */
-void strToVec(string line, vector<pair<string, vector<double>>> &unclassifiedVectors)
+void readUnclassifiedLineFromFile(string line, vector<pair<string, vector<double>>> &database)
 {
     vector<double> vec;
     double num;
+    // we insert each line from the table to a pair
     pair<string, vector<double>> pair;
+
     // create a string stream from the line
     stringstream line_stream(line);
     string value;
 
+    // use the string stream to read the values from the line, seperated by commas
     while (getline(line_stream, value, ','))
     {
         // insert the string to a stringstream before the conversion to double
@@ -32,10 +35,16 @@ void strToVec(string line, vector<pair<string, vector<double>>> &unclassifiedVec
             break;
         }
     }
-    unclassifiedVectors.push_back(pair);
+    database.push_back(pair);
 }
 
-void readLineFromFile(string line, vector<pair<string, vector<double>>> &database)
+/**
+ * @brief this function recieves a line from classified csv file and converts it to database.
+ *
+ * @param line the line
+ * @param database the database
+ */
+void readClassifiedLineFromFile(string line, vector<pair<string, vector<double>>> &database)
 {
     stringstream ss;
 
@@ -75,6 +84,11 @@ void readLineFromFile(string line, vector<pair<string, vector<double>>> &databas
     database.push_back(pair);
 }
 
+/**
+ * @brief the function checks if the classified database created is valid (not empty, same vector size etc).
+ *
+ * @param database
+ */
 bool databaseValidation(vector<pair<string, vector<double>>> &database)
 {
     // check if the file is empty and set the flag accordingly
@@ -97,6 +111,11 @@ bool databaseValidation(vector<pair<string, vector<double>>> &database)
     return true;
 }
 
+/**
+ * @brief the function checks if the unclassified database created is valid (not empty, same vector size etc).
+ *
+ * @param database
+ */
 bool unclassifiedVectorsValidation(vector<pair<string, vector<double>>> &unclassifiedVectors,
                                    int databaseVecSize)
 {
@@ -121,22 +140,32 @@ bool unclassifiedVectorsValidation(vector<pair<string, vector<double>>> &unclass
     return true;
 }
 
-void sendFile(string filePath, DefaultIO* io) {
+/**
+ * @brief the function opens a csv file and send line after line to the server
+ *
+ * @param filePath
+ * @param io
+ */
+void sendFile(string filePath, DefaultIO *io)
+{
     // open the file and check if it was opened successfully
     ifstream file;
     file.open(filePath);
     if (!file.is_open())
     {
+        // mark the end of the file
         io->write("end of file");
         return;
     }
 
+    // mark the begining of a file
     io->write("start of file");
-    // read the file line by line
+    // read the file line by line and send to the server
     string line;
     while (getline(file, line))
     {
         io->write(line);
     }
+    // mark the end of the file
     io->write("end of file");
 }

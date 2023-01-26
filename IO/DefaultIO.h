@@ -5,10 +5,14 @@
 
 using namespace std;
 
+/**
+ * @brief DefaultIO abstract class
+ * 
+ */
 class DefaultIO
 {
 public:
-    DefaultIO(/* args */) = default;
+    DefaultIO() = default;
     virtual string read() = 0;
     virtual void write(string data) = 0;
     ~DefaultIO() = default;

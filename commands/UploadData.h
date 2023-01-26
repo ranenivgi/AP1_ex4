@@ -11,7 +11,7 @@ using namespace std;
 class UploadData : public Command
 {
 public:
-    UploadData(DefaultIO* io, ClientDetails* clientDetails);
+    UploadData(DefaultIO *io, ClientDetails *clientDetails);
     void execute() override;
     ~UploadData() = default;
 };

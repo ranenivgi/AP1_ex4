@@ -13,11 +13,12 @@ private:
     string description;
     DefaultIO *io;
     ClientDetails *clientDetails;
+
 public:
-    Command(/* args */) = default;
+    Command() = default;
     virtual void execute() = 0;
     DefaultIO *getIO();
-    void setIO(DefaultIO* io);
+    void setIO(DefaultIO *io);
     ClientDetails *getClientDetails();
     void setClientDetails(ClientDetails *clientDetails);
     void setDescription(string description);

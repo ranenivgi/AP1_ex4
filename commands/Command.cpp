@@ -1,26 +1,61 @@
 #include "Command.h"
 
-DefaultIO* Command::getIO() {
+/**
+ * @brief getter for the IO
+ * 
+ * @return DefaultIO* 
+ */
+DefaultIO *Command::getIO()
+{
     return this->io;
 }
 
-void Command::setIO(DefaultIO* io) {
+/**
+ * @brief setter for the IO
+ * 
+ * @param io 
+ */
+void Command::setIO(DefaultIO *io)
+{
     this->io = io;
 }
 
-ClientDetails* Command::getClientDetails() {
+/**
+ * @brief getter for the client details
+ * 
+ * @return ClientDetails* 
+ */
+ClientDetails *Command::getClientDetails()
+{
     return this->clientDetails;
 }
 
-void Command::setDescription(string description) {
+/**
+ * @brief setter for the command description
+ * 
+ * @param description 
+ */
+void Command::setDescription(string description)
+{
     this->description = description;
 }
 
-string Command::getDescription() {
+/**
+ * @brief getter for the command description
+ * 
+ * @return string 
+ */
+string Command::getDescription()
+{
     return this->description;
 }
 
-void Command::setClientDetails(ClientDetails *clientDetails) {
+/**
+ * @brief setter for the client details
+ * 
+ * @param clientDetails 
+ */
+void Command::setClientDetails(ClientDetails *clientDetails)
+{
     this->clientDetails = clientDetails;
 }
-
