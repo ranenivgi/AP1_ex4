@@ -54,6 +54,7 @@ string Knn::findVectorType()
 {
     // create the map to count the appearance of each type
     map<string, long> neighbors;
+    // if k is bigger than database size we take database size to be the number of neighbors
     int size = min((int) this->K, (int) this->distances.size());
     for (int i = 0; i < size; i++)
     {

@@ -29,6 +29,7 @@ void readUnclassifiedLineFromFile(string line, vector<pair<string, vector<double
         }
         else
         {
+            // if the stringstream isn't empty it means that the file isn't in the correct format, i.e. invalid
             if(!ss.eof()){
                 pair.first = value;
             }

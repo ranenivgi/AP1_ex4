@@ -11,8 +11,12 @@
 #include <stdlib.h>
 #include <vector>
 #include <thread>
+#include <chrono>
 
 #define EXIT 8
+bool stop = false;
+
+
 
 using namespace std;
 
@@ -79,6 +83,7 @@ void recieveFromServer(DefaultIO *io)
         // check if we should stop
         if (input == "<exit>")
         {
+            stop = true;
             break;
         }
 
@@ -131,6 +136,12 @@ void sendToServer(DefaultIO *io)
     string input;
     while (true)
     {
+        this_thread::sleep_for(chrono::milliseconds(35));
+        // check if the function should be stopped
+        if (stop)
+        {
+            break;
+        }
         // get input from the user
         getline(cin, input);
         stringstream ss(input);
@@ -142,13 +153,7 @@ void sendToServer(DefaultIO *io)
         }
 
         // send the input to the server
-        io->write(input);
-
-        // check if the function should be stopped
-        if ((ss >> exit) && exit == EXIT)
-        {
-            break;
-        }
+        io->write(input); 
     }
 }
 
