@@ -49,14 +49,12 @@ string SocketIO::read()
         // connection closed
         if (readBytes == 0)
         {
-            string temp = "connection is closed";
-            return temp;
+            throw runtime_error("connection is closed");
         }
         // error trying to receive
         else if (readBytes < 0)
         {
-            string temp = "connection is closed";
-            return temp;
+            throw runtime_error("connection is closed");
         }
         line.append(buffer);
     } while (!equal(end.rbegin(), end.rend(), line.rbegin()));

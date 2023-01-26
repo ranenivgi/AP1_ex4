@@ -77,29 +77,31 @@ void recieveFromServer(DefaultIO *io)
 {
     while (true)
     {
-        // read an input from the server
-        string input = io->read();
-
-        // check if we should stop
-        if (input == "<exit>")
+        try
         {
-            stop = true;
-            break;
-        }
+            // read an input from the server
+            string input = io->read();
 
-        // check if the server connection stopped and exit the program if so.
-        if (input == "connection is closed")
-        {
-            exit(1);
-        }
+            // check if we should stop
+            if (input == "<exit>")
+            {
+                stop = true;
+                break;
+            }
 
-        // check if the input is a txt file which should be written to and does it
-        if (isTXTFile(io, input))
-        {
-            continue;
+            // check if the input is a txt file which should be written to and does it
+            if (isTXTFile(io, input))
+            {
+                continue;
+            }
+            // print the input
+            cout << input;
         }
-        // print the input
-        cout << input;
+        catch (...)
+        {
+            cout << "server connection is closed" << endl;
+            exit(0);
+        }
     }
 }
 
@@ -164,6 +166,7 @@ void sendToServer(DefaultIO *io)
  */
 int main(int argc, char **argv)
 {
+
     // argument input check
     if (argc != 3)
     {

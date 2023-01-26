@@ -12,6 +12,15 @@ void readUnclassifiedLineFromFile(string line, vector<pair<string, vector<double
     double num;
     // we insert each line from the table to a pair
     pair<string, vector<double>> pair;
+    
+    if (line.back() == '\r' || line.back() == '\n') {
+        //remove the end of line carriage char from the end of the line
+        line.erase(line.end() - 1, line.end());
+        // check for "\r\n" end
+        if (line.back() == '\r') {
+            line.erase(line.end() - 1, line.end());
+        }
+    }
 
     // create a string stream from the line
     stringstream line_stream(line);
@@ -22,8 +31,8 @@ void readUnclassifiedLineFromFile(string line, vector<pair<string, vector<double
     {
         // insert the string to a stringstream before the conversion to double
         stringstream ss(value);
-        // checking if the input is valid, if its not valid we break the loop
-        if (!ss.eof() && (ss >> num))
+        // checking if the input is valid and push to the vector, if its not valid we break the loop
+        if ((ss >> num) && ss.eof())
         {
             pair.second.push_back(num);
         }
@@ -62,7 +71,7 @@ void readClassifiedLineFromFile(string line, vector<pair<string, vector<double>>
     {
         // insert the string to a stringstream before the conversion to double
         stringstream ss(value);
-        // checking if the input is valid, if its not valid we reached the type so we break the loop
+        // checking if the input is valid and push to the, if its not valid we reached the type so we break the loop
         if ((ss >> num) && ss.eof())
         {
             // insert the number to the vector in the second element
