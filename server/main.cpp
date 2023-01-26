@@ -40,7 +40,14 @@ void clientProcess(TCPServer *server)
     CLI *cli = new CLI(io, commands);
 
     // start the process
-    cli->start();
+    try
+    {
+        cli->start();
+    }
+    catch (...)
+    {
+        // moving to the next client if the connection is closed
+    }
     // close the socket when the process is over
     server->closeClientSocket();
 }

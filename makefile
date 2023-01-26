@@ -45,3 +45,7 @@ client.o: client/main.cpp
 # Clean command
 clean:
 	$(CLN) *.o server.out client.out
+	rm -f $(wildcard */*.o)
+	rm -f $(wildcard */*.a)
+	rm -f $(wildcard */*.out)
+
