@@ -54,7 +54,8 @@ string Knn::findVectorType()
 {
     // create the map to count the appearance of each type
     map<string, long> neighbors;
-    for (int i = 0; i < this->K; i++)
+    int size = min((int) this->K, (int) this->distances.size());
+    for (int i = 0; i < size; i++)
     {
         if (neighbors.count(this->distances.at(i).first) > 0)
         {

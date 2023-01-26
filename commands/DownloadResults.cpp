@@ -22,14 +22,15 @@ void DownloadResults::sendToClient(string input)
 {
     // send the path for the creation of the file
     this->getIO()->write(input + "/ClassifiedResults.txt");
-    
     // read each line from the unclassified database and append to a message
-    int size = this->getClientDetails()->getUnclassified().size();
+    int size = this->getClientDetails()->getUnclassified().size() - 1;
     string message;
     for (int i = 0; i < size; ++i)
     {
         message.append(to_string(i + 1) + "\t" + this->getClientDetails()->getUnclassified()[i].first + "\n");
     }
+    // append the last line from the unclassified database to a message without '\n'
+    message.append(to_string(size + 1) + "\t" + this->getClientDetails()->getUnclassified()[size].first);
     // send the final message to the client
     this->getIO()->write(message);
 }

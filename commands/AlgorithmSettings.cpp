@@ -52,6 +52,12 @@ void AlgorithmSettings::convertAndSetInput(string input)
     stringstream ss(value);
     // take the k number and insert into int variable
     wordStream >> value;
+    // check if there are too many arguments
+    if(!(wordStream.eof()))
+    {
+        this->getIO()->write("invalid input\n");
+        return;
+    }
     // check algorithm validation
     bool isValidAlgorithm = selectAlgorithm(value) == -1 ? false : true;
     // check k validation

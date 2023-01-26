@@ -29,6 +29,9 @@ void readUnclassifiedLineFromFile(string line, vector<pair<string, vector<double
         }
         else
         {
+            if(!ss.eof()){
+                pair.first = value;
+            }
             break;
         }
     }
@@ -128,7 +131,8 @@ bool unclassifiedVectorsValidation(vector<pair<string, vector<double>>> &unclass
     for (int i = 0; i < size; i++)
     {
         // compare the vectors size from the database and set the flag accordingly
-        if (unclassifiedVectors[i].second.size() != vecSize || unclassifiedVectors[i].second.size() == 0 || unclassifiedVectors[i].second.size() != databaseVecSize)
+        if (unclassifiedVectors[i].second.size() != vecSize || unclassifiedVectors[i].second.size() == 0 
+        || unclassifiedVectors[i].second.size() != databaseVecSize || !unclassifiedVectors[i].first.empty())
         {
             return false;
         }
